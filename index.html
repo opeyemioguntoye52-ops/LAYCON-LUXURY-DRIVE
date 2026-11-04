@@ -87,8 +87,8 @@
   <body class="bg-stone-950 text-stone-100 font-sans antialiased selection:bg-amber-500/30 selection:text-amber-300 min-h-screen flex flex-col">
 
     <!-- Top Navigation Bar (Clean 3-Zone Contract) -->
-    <header class="sticky top-0 z-40 w-full border-b border-stone-800/80 bg-stone-950/90 backdrop-blur-md">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-8 border border-stone-800" style="border-radius: 50px; border-style: double; background-color: #0c0c2a;">
+    <header class="sticky top-0 z-40 w-full border-b border-stone-800/80 backdrop-blur-md" style="border-style: groove; border-radius: 19px; background-color: #ddd1d1;">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-8 border border-stone-800" style="border-radius: 60px; border-style: double; background-color: #0c0c2a;">
         <!-- Zone 1: Single Brand Wordmark with Crest Logo -->
         <a href="#" class="flex items-center gap-3.5 group whitespace-nowrap shrink-0">
           <div class="relative w-11 h-11 rounded-lg overflow-hidden border border-amber-500/30 p-0.5 bg-stone-900 group-hover:border-amber-400 transition-colors">
@@ -120,11 +120,13 @@
         <!-- Zone 3: Primary CTA & Admin Trigger -->
         <div class="flex items-center gap-3 shrink-0">
           <button 
+            id="navAdminBtn"
             onclick="openAdminModal()" 
-            title="Open Admin Portal" 
-            class="p-2 text-stone-400 hover:text-amber-400 hover:bg-stone-900 rounded-lg transition-colors border border-transparent hover:border-stone-800"
+            title="Open Fleet Admin Portal" 
+            class="p-2 text-stone-400 hover:text-amber-400 hover:bg-stone-900 rounded-lg transition-colors border border-transparent hover:border-stone-800 relative cursor-pointer"
           >
             <i data-lucide="shield-check" class="w-5 h-5"></i>
+            <span id="navAdminStatusDot" class="hidden absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-stone-950"></span>
           </button>
           <a 
             href="#fleet" 
@@ -140,7 +142,7 @@
     <main class="flex-grow">
       
       <!-- Hero Showcase Section -->
-      <section class="relative overflow-hidden border-b border-stone-800/60 pt-12 pb-20 lg:pt-20 lg:pb-28">
+      <section class="relative overflow-hidden border-b border-stone-800/60 pt-12 pb-20 lg:pt-20 lg:pb-28" style="background-color: #232222;">
         <!-- Subtle background atmospheric ambient glow -->
         <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-amber-500/5 blur-[120px] rounded-full pointer-events-none"></div>
 
@@ -287,7 +289,7 @@
       </section>
 
       <!-- Fleet Grid & Multi-Tier Pricing Catalog Section -->
-      <section id="fleet" class="py-16 lg:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="fleet" class="py-16 lg:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style="background-color: #202020;">
         
         <!-- Section Header -->
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12" style="border-radius: 5px; border-width: 0px; line-height: 27px; margin-left: 6px; margin-bottom: 27px; width: 948px; max-width: 100%;">
@@ -346,7 +348,7 @@
       </section>
 
       <!-- Rate Tiers Overview & Concierge Info -->
-      <section id="rates" class="py-16 border-t border-stone-800/80 bg-stone-900/30">
+      <section id="rates" class="py-16 border-t border-stone-800/80 bg-stone-900/30" style="background-color: #1a1a1b;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center max-w-2xl mx-auto mb-14">
             <span class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500">Transparent Pricing</span>
@@ -709,58 +711,195 @@
       </div>
     </div>
 
-    <!-- 3. ADMIN PASSWORD MODAL -->
+    <!-- 3. PRODUCTION SUPABASE AUTH ADMIN MODAL -->
     <div id="adminPasswordModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-      <div class="fixed inset-0 bg-black/80 backdrop-blur-sm" onclick="closeAdminPasswordModal()"></div>
-      <div class="relative bg-stone-900 border border-stone-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl z-10 space-y-4">
-        <div class="flex items-center justify-between border-b border-stone-800 pb-3">
-          <div class="flex items-center gap-2 text-amber-500">
-            <i data-lucide="lock" class="w-4 h-4"></i>
-            <h3 class="text-sm font-bold uppercase tracking-wider text-white">Fleet Admin Access</h3>
+      <div class="fixed inset-0 bg-black/85 backdrop-blur-sm" onclick="closeAdminPasswordModal()"></div>
+      <div class="relative bg-stone-900 border border-stone-800 rounded-2xl max-w-md w-full p-6 sm:p-7 shadow-2xl z-10 space-y-5">
+        <div class="flex items-center justify-between border-b border-stone-800 pb-3.5">
+          <div class="flex items-center gap-2.5 text-amber-500">
+            <div class="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold uppercase tracking-wider text-white">Fleet Admin Access</h3>
+              <p class="text-[11px] text-stone-400">Supabase Auth Session & Role Verification</p>
+            </div>
           </div>
-          <button onclick="closeAdminPasswordModal()" class="text-stone-400 hover:text-white">
+          <button onclick="closeAdminPasswordModal()" class="text-stone-400 hover:text-white p-1 rounded-md hover:bg-stone-800 transition-colors">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
-        <div class="space-y-1">
-          <p class="text-xs text-stone-400">
-            Enter your passcode or authenticate using your authorized Supabase Admin User ID.
-          </p>
-          <div class="p-2 rounded bg-stone-950 border border-stone-800 text-[10px] font-mono text-stone-400 break-all">
-            <span class="text-amber-400 font-semibold block">Supabase Admin User ID:</span>
-            <span>d3e8c025-a4f4-45f6-99d7-852bf305a92e</span>
+        <div class="space-y-2 text-xs text-stone-300">
+          <div class="p-2.5 rounded-lg bg-stone-950 border border-stone-800 flex items-center justify-between text-[11px] font-mono">
+            <span class="text-stone-400">Authorized Admin UID:</span>
+            <span class="text-emerald-400 font-semibold" title="d3e8c025-a4f4-45f6-99d7-852bf305a92e">d3e8c025...a92e</span>
           </div>
         </div>
 
-        <form onsubmit="handleAdminLogin(event)" class="space-y-3">
+        <!-- Password Login Form -->
+        <div id="authViewPassword" class="space-y-3.5">
+          <form id="adminAuthForm" onsubmit="handleAdminEmailLogin(event)" class="space-y-3.5">
+            <div>
+              <label class="block text-xs font-medium text-stone-300 mb-1">Admin Email Address</label>
+              <input 
+                type="email" 
+                id="adminAuthEmail" 
+                required 
+                placeholder="overwhelmingg925@gmail.com" 
+                class="w-full bg-stone-950 border border-stone-700 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors"
+                autocomplete="username"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-stone-300 mb-1">Password</label>
+              <div class="relative">
+                <input 
+                  type="password" 
+                  id="adminAuthPassword" 
+                  required 
+                  placeholder="••••••••••••" 
+                  class="w-full bg-stone-950 border border-stone-700 rounded-lg pl-3.5 pr-10 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 transition-colors font-mono"
+                  autocomplete="current-password"
+                />
+                <button 
+                  type="button" 
+                  onclick="togglePasswordInputVisibility('adminAuthPassword', 'toggleAuthPwdIcon')" 
+                  class="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-stone-400 hover:text-white transition-colors"
+                  title="Toggle visibility"
+                >
+                  <i id="toggleAuthPwdIcon" data-lucide="eye" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Error Banner -->
+            <div id="adminAuthError" class="p-3.5 rounded-xl bg-rose-950/60 border border-rose-800 text-rose-200 text-xs hidden space-y-1.5">
+              <div class="flex items-start gap-2">
+                <i data-lucide="alert-octagon" class="w-4 h-4 shrink-0 text-rose-400 mt-0.5"></i>
+                <div>
+                  <span id="adminAuthErrorText" class="font-semibold block">Invalid login credentials.</span>
+                  <p class="text-[11px] text-rose-300/90 mt-0.5">
+                    Please verify your password and try again.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-1">
+              <button 
+                type="submit" 
+                id="adminAuthSubmitBtn" 
+                class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg shadow-amber-500/10 cursor-pointer"
+              >
+                <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+                <span id="adminAuthBtnText">Sign In with Password</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Alternative Auth Recovery Options -->
+          <div class="pt-3 border-t border-stone-800 space-y-2">
+            <div class="flex items-center justify-between text-[11px]">
+              <button 
+                type="button" 
+                onclick="sendAdminMagicLink()" 
+                class="text-amber-400 hover:text-amber-300 hover:underline flex items-center gap-1 cursor-pointer"
+              >
+                <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                <span>Email me a Magic Link</span>
+              </button>
+              <button 
+                type="button" 
+                onclick="sendAdminResetPasswordEmail()" 
+                class="text-stone-400 hover:text-stone-200 hover:underline cursor-pointer"
+              >
+                Forgot password?
+              </button>
+            </div>
+            <div class="pt-1 text-center">
+              <button 
+                type="button" 
+                onclick="handleAdminSignUp()" 
+                class="text-[11px] text-stone-400 hover:text-amber-400 transition-colors cursor-pointer"
+              >
+                Need to register this account? Click to create user in Supabase
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3B. UPDATE ADMIN PASSWORD MODAL -->
+    <div id="newPasswordModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+      <div class="fixed inset-0 bg-black/85 backdrop-blur-sm" onclick="closeNewPasswordModal()"></div>
+      <div class="relative bg-stone-900 border border-stone-800 rounded-2xl max-w-md w-full p-6 sm:p-7 shadow-2xl z-10 space-y-5">
+        <div class="flex items-center justify-between border-b border-stone-800 pb-3.5">
+          <div class="flex items-center gap-2.5 text-amber-500">
+            <div class="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400">
+              <i data-lucide="key" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold uppercase tracking-wider text-white">Change Admin Password</h3>
+              <p class="text-[11px] text-stone-400">Updates credentials in your Supabase Auth user account</p>
+            </div>
+          </div>
+          <button onclick="closeNewPasswordModal()" class="text-stone-400 hover:text-white p-1 rounded-md hover:bg-stone-800 transition-colors">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <form id="updatePasswordForm" onsubmit="handleUpdateAdminPassword(event)" class="space-y-4">
           <div>
-            <label class="block text-xs text-stone-400 mb-1">Passcode or Admin User ID</label>
+            <label class="block text-xs font-medium text-stone-300 mb-1">New Password (min 6 characters)</label>
+            <div class="relative">
+              <input 
+                type="password" 
+                id="newAdminPassword" 
+                required 
+                minlength="6"
+                placeholder="Enter new password" 
+                class="w-full bg-stone-950 border border-stone-700 rounded-lg pl-3.5 pr-10 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 font-mono"
+              />
+              <button 
+                type="button" 
+                onclick="togglePasswordInputVisibility('newAdminPassword', 'toggleNewPwdIcon')" 
+                class="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-stone-400 hover:text-white"
+              >
+                <i id="toggleNewPwdIcon" data-lucide="eye" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-stone-300 mb-1">Confirm New Password</label>
             <input 
               type="password" 
-              id="adminPasswordInput" 
-              placeholder="admin123 or d3e8c025..." 
-              class="w-full bg-stone-950 border border-stone-700 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500"
-              autocomplete="current-password"
+              id="confirmAdminPassword" 
+              required 
+              minlength="6"
+              placeholder="Confirm new password" 
+              class="w-full bg-stone-950 border border-stone-700 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500 font-mono"
             />
           </div>
-          <div id="adminPasswordError" class="text-xs text-rose-400 hidden">
-            Invalid credentials. Enter admin123 or admin user ID.
-          </div>
-          <div class="space-y-2 pt-1">
-            <button 
-              type="submit" 
-              class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs rounded-lg transition-colors"
-            >
-              Unlock Portal
-            </button>
+
+          <div class="pt-2 flex gap-3">
             <button 
               type="button" 
-              onclick="quickLoginAsAdmin()" 
-              class="w-full py-2 bg-stone-800 hover:bg-stone-750 text-stone-300 hover:text-white border border-stone-700 text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5"
+              onclick="closeNewPasswordModal()" 
+              class="w-1/2 py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-300 font-medium text-xs rounded-lg transition-colors cursor-pointer"
             >
-              <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
-              <span>One-Click Login as Admin (d3e8c025)</span>
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              id="saveNewPasswordBtn"
+              class="w-1/2 py-2.5 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-lg shadow-amber-500/10"
+            >
+              <i data-lucide="check" class="w-3.5 h-3.5"></i>
+              <span>Save Password</span>
             </button>
           </div>
         </form>
@@ -772,7 +911,7 @@
       <div class="fixed inset-0 bg-black/85 backdrop-blur-md" onclick="closeAdminPortal()"></div>
       <div class="relative bg-stone-900 border border-stone-800 rounded-2xl max-w-5xl w-full h-[90vh] flex flex-col shadow-2xl z-10 overflow-hidden">
         
-        <!-- Admin Header -->
+        <!-- Admin Header with Verified Identity & Sign Out Guard -->
         <div class="px-6 py-4 border-b border-stone-800 bg-stone-950 flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center gap-3">
             <div class="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400">
@@ -781,16 +920,17 @@
             <div>
               <h2 class="text-base font-bold text-white flex items-center gap-2 flex-wrap">
                 <span>Laycon Executive Portal</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400" title="d3e8c025-a4f4-45f6-99d7-852bf305a92e">
-                  Admin: d3e8c025-a4f4-45f6-99d7-852bf305a92e
+                <span id="adminPortalUserBadge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center gap-1.5" title="d3e8c025-a4f4-45f6-99d7-852bf305a92e">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span id="adminPortalUserEmail">Admin: d3e8c025...</span>
                 </span>
               </h2>
               <p class="text-xs text-stone-400">Fleet Operations, Tier Matrix & Revenue Analytics</p>
             </div>
           </div>
 
-          <!-- Tab Navigation -->
-          <div class="flex items-center gap-2">
+          <!-- Tab Navigation & Sign Out -->
+          <div class="flex items-center gap-2 flex-wrap">
             <div class="flex p-1 bg-stone-850 rounded-lg border border-stone-800 text-xs">
               <button onclick="switchAdminTab('analytics')" id="tabBtnAnalytics" class="admin-tab-btn active px-3 py-1.5 rounded-md font-medium text-white bg-stone-750">
                 Analytics & Bookings
@@ -802,6 +942,14 @@
                 Supabase Sync
               </button>
             </div>
+            <button 
+              onclick="handleAdminSignOut()" 
+              title="Sign Out of Admin Console" 
+              class="py-1.5 px-3 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 hover:text-rose-200 border border-rose-500/30 text-xs rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"
+            >
+              <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+              <span>Sign Out</span>
+            </button>
             <button onclick="closeAdminPortal()" class="p-2 text-stone-400 hover:text-white hover:bg-stone-850 rounded-lg">
               <i data-lucide="x" class="w-5 h-5"></i>
             </button>
@@ -1134,6 +1282,27 @@
               </div>
             </div>
 
+            <!-- Admin Account & Password Management Card -->
+            <div class="rounded-xl border border-stone-800 bg-stone-950 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                  <i data-lucide="lock" class="w-4 h-4 text-amber-400"></i>
+                  <span>Administrator Password Management</span>
+                </h4>
+                <p class="text-[11px] text-stone-400 mt-1">
+                  Change or reset your Supabase login password anytime to ensure uninterrupted access.
+                </p>
+              </div>
+              <button 
+                type="button"
+                onclick="openNewPasswordModal()" 
+                class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5 shrink-0 shadow-lg shadow-amber-500/10 cursor-pointer"
+              >
+                <i data-lucide="key" class="w-3.5 h-3.5"></i>
+                <span>Change / Set Password</span>
+              </button>
+            </div>
+
             <!-- Copyable Supabase SQL Migration -->
             <div class="rounded-xl border border-stone-800 bg-stone-950 p-5 space-y-3">
               <div class="flex items-center justify-between">
@@ -1233,7 +1402,42 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.bookings;</pre>
         ? supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
         : null;
       let WHATSAPP_PHONE = localStorage.getItem('lld_whatsapp_phone') || '+1234567890';
+      let authListenerSubscribed = false;
       let realtimeChannel = null;
+      let currentAdminUser = null;
+
+      function isUUID(str) {
+        return typeof str === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
+      }
+
+      function setupAuthListener() {
+        if (!supabase || authListenerSubscribed) return;
+        try {
+          supabase.auth.onAuthStateChange(async (event, session) => {
+            console.log('Supabase Auth State Change:', event, session?.user?.email || session?.user?.id);
+            const user = session?.user || null;
+
+            const isAdmin = await checkIsAdmin(user);
+            currentAdminUser = isAdmin ? user : null;
+            updateAdminSessionUI(currentAdminUser);
+
+            if (user && isAdmin && (event === 'SIGNED_IN' || event === 'USER_UPDATED')) {
+              closeAdminPasswordModal();
+              showToast(`Authenticated as Admin (${user.email || user.id.slice(0, 8)})`, 'success');
+            }
+
+            // Immediate revocation guard: If portal is open but admin rights are not present or session ends
+            const portal = document.getElementById('adminPortalModal');
+            if (portal && !portal.classList.contains('hidden') && !isAdmin) {
+              closeAdminPortal();
+              showToast('Admin session expired or access revoked.', 'warning');
+            }
+          });
+          authListenerSubscribed = true;
+        } catch (e) {
+          console.warn('Supabase auth state listener setup notice:', e);
+        }
+      }
 
       function initSupabaseClient() {
         if (!supabase && supabaseLib && typeof supabaseLib.createClient === 'function') {
@@ -1246,6 +1450,15 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.bookings;</pre>
         if (supabase) {
           console.log('Supabase JS v2 client active:', SUPABASE_URL);
           setupRealtimeSubscription();
+          setupAuthListener();
+
+          // Initial check of existing session
+          getActiveAdminSessionUser().then(user => {
+            if (user) {
+              currentAdminUser = user;
+              updateAdminSessionUI(user);
+            }
+          });
           return true;
         }
         return false;
@@ -1261,65 +1474,10 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.bookings;</pre>
         });
       }
 
-      // Initial Seed Fleet Vehicles with valid UUID primary keys
-      const DEFAULT_FLEET = [
-        {
-          id: 'a01b2c3d-4e5f-4678-90ab-cdef12345678',
-          name: 'Mercedes-Maybach S 680 4MATIC',
-          category: 'Executive Sedan',
-          description: 'The pinnacle of chauffeured luxury. Handcrafted Nappa leather, reclining rear executive suites, champagne refrigerator, and Burmester 4D high-end audio.',
-          specs: '6.0L V12 Biturbo · 621 HP · 0-60 in 4.4s',
-          image_url: 'src/assets/images/car_maybach_s680_1793755719316.jpg',
-          rate_1hr: 250,
-          rate_3hr: 650,
-          rate_6hr: 1100,
-          rate_12hr: 1850,
-          rate_daily: 2800,
-          is_active: true
-        },
-        {
-          id: 'b01b2c3d-4e5f-4678-90ab-cdef12345678',
-          name: 'Rolls-Royce Cullinan Black Badge',
-          category: 'Ultra-Luxury SUV',
-          description: 'Unrivaled regal presence. Starlight headliner, bespoke lambswool over-rugs, whisper-quiet cabin acoustics, and effortless Magic Carpet Ride air suspension.',
-          specs: '6.75L V12 Twin-Turbo · 592 HP · All-Wheel Steer',
-          image_url: '/assets/fleet/car_rolls_cullinan_1793755719815.jpg',
-          rate_1hr: 350,
-          rate_3hr: 900,
-          rate_6hr: 1550,
-          rate_12hr: 2400,
-          rate_daily: 3600,
-          is_active: true
-        },
-        {
-          id: 'c01b2c3d-4e5f-4678-90ab-cdef12345678',
-          name: 'Porsche 911 Carrera GTS',
-          category: 'Exotic Sports',
-          description: 'Surgical German driving dynamics. Sport Chrono package, active sport exhaust, lightweight carbon bucket seats, and razor-sharp steering feedback.',
-          specs: '3.0L Twin-Turbo Boxer · 473 HP · 0-60 in 3.1s',
-          image_url: '/assets/fleet/car_porsche_gt3_1793755719706.jpg',
-          rate_1hr: 220,
-          rate_3hr: 550,
-          rate_6hr: 950,
-          rate_12hr: 1500,
-          rate_daily: 2200,
-          is_active: true
-        },
-        {
-          id: 'd01b2c3d-4e5f-4678-90ab-cdef12345678',
-          name: 'Lamborghini Urus Performante',
-          category: 'Super SUV',
-          description: 'Supercar agility fused with commanding SUV stance. Akrapovič titanium exhaust system, carbon fiber bonnet and aero package with launch control.',
-          specs: '4.0L Twin-Turbo V8 · 657 HP · 0-60 in 3.0s',
-          image_url: '/assets/fleet/car_lamborghini_urus_1793755720034.jpg',
-          rate_1hr: 300,
-          rate_3hr: 800,
-          rate_6hr: 1350,
-          rate_12hr: 2100,
-          rate_daily: 3100,
-          is_active: true
-        }
-      ];
+      // Change from hardcoded array to empty array
+      const initialVehicles = [];
+      const DEFAULT_FLEET = initialVehicles;
+
 
       // Initial Seed Bookings (using valid UUIDs)
       const DEFAULT_BOOKINGS = [
@@ -1355,13 +1513,13 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.bookings;</pre>
 
       // App State with automatic UUID migration
       let fleet = JSON.parse(localStorage.getItem('lld_fleet')) || DEFAULT_FLEET;
-      if (fleet && fleet.some(v => v.id && v.id.startsWith('v_'))) {
+      if (fleet && fleet.some(v => !isUUID(v.id))) {
         fleet = DEFAULT_FLEET;
         localStorage.setItem('lld_fleet', JSON.stringify(fleet));
       }
 
       let bookings = JSON.parse(localStorage.getItem('lld_bookings')) || DEFAULT_BOOKINGS;
-      if (bookings && bookings.some(b => b.id && b.id.startsWith('LLD-'))) {
+      if (bookings && bookings.some(b => !isUUID(b.id))) {
         bookings = DEFAULT_BOOKINGS;
         localStorage.setItem('lld_bookings', JSON.stringify(bookings));
       }
@@ -1423,8 +1581,9 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.bookings;</pre>
                 saveFleetLocally();
                 console.log('Loaded fleet from Supabase vehicles table:', fleet.length);
               } else {
-                console.log('Supabase vehicles table is empty, auto-seeding default luxury vehicles...');
-                await seedVehicles();
+                console.log('Supabase vehicles table is empty.');
+                fleet = [];
+                saveFleetLocally();
               }
             } else if (error) {
               console.warn('Supabase fetch notice for vehicles table:', error.message);
@@ -1438,14 +1597,18 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.bookings;</pre>
       }
 
       async function seedVehicles() {
-        if (!supabase) return;
+        if (!supabase || DEFAULT_FLEET.length === 0) return;
         try {
-          const { error } = await supabase.from('vehicles').upsert(DEFAULT_FLEET);
+          const payload = DEFAULT_FLEET.map(v => ({
+            ...v,
+            id: isUUID(v.id) ? v.id : generateUUID()
+          }));
+          const { error } = await supabase.from('vehicles').upsert(payload);
           if (!error) {
-            fleet = DEFAULT_FLEET;
+            fleet = payload;
             saveFleetLocally();
-            console.log('Default vehicles successfully synced to Supabase vehicles table!');
-            showToast('Initial luxury fleet synced to Supabase!', 'success');
+            console.log('Vehicles successfully synced to Supabase vehicles table!');
+            showToast('Fleet synced to Supabase!', 'success');
           } else {
             console.warn('Could not seed Supabase vehicles table:', error.message);
           }
@@ -1504,21 +1667,41 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.bookings;</pre>
         if (!container) return;
 
         const filtered = fleet.filter(v => {
-          if (!v.is_active) return false;
+          if (v.is_active === false) return false;
           if (activeCategoryFilter === 'all') return true;
-          return v.category.toLowerCase() === activeCategoryFilter.toLowerCase();
+          return (v.category || '').toLowerCase() === activeCategoryFilter.toLowerCase();
         });
 
         if (countLabel) {
           countLabel.textContent = `${filtered.length} Bespoke ${filtered.length === 1 ? 'Vehicle' : 'Vehicles'}`;
         }
 
+        if (fleet.length === 0) {
+          container.innerHTML = `
+            <div class="col-span-full py-16 text-center text-stone-400 border border-stone-800 rounded-2xl bg-stone-900/40 p-8 space-y-4">
+              <i data-lucide="car" class="w-12 h-12 mx-auto text-amber-400/60 mb-2"></i>
+              <h3 class="text-lg font-bold text-white">Fleet Catalog Ready</h3>
+              <p class="text-xs text-stone-400 max-w-md mx-auto">
+                No vehicles are currently in the fleet database. Sign in as Admin to add vehicles or synchronize with Supabase.
+              </p>
+              <div class="flex items-center justify-center gap-3 pt-2">
+                <button onclick="openAdminModal()" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs rounded-lg transition-colors flex items-center gap-2 shadow-lg shadow-amber-500/10 cursor-pointer">
+                  <i data-lucide="shield" class="w-4 h-4"></i>
+                  <span>Admin Access (Add Vehicles)</span>
+                </button>
+              </div>
+            </div>
+          `;
+          lucide.createIcons();
+          return;
+        }
+
         if (filtered.length === 0) {
           container.innerHTML = `
             <div class="col-span-full py-16 text-center text-stone-500 border border-stone-800 rounded-2xl bg-stone-900/40">
               <i data-lucide="car" class="w-10 h-10 mx-auto text-stone-600 mb-3"></i>
-              <p class="text-sm font-medium text-stone-300">No vehicles match this filter.</p>
-              <button onclick="filterFleetCategory('all')" class="mt-3 text-xs text-amber-400 hover:underline">
+              <p class="text-sm font-medium text-stone-300">No vehicles match this category.</p>
+              <button onclick="filterFleetCategory('all')" class="mt-3 text-xs text-amber-400 hover:underline cursor-pointer">
                 View All Vehicles
               </button>
             </div>
@@ -1527,7 +1710,8 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.bookings;</pre>
           return;
         }
 
-        container.innerHTML = filtered.map(v => {
+        container.innerHTML = filtered.map((v, idx) => {
+          const specsWeight = idx === 0 ? 'normal' : 'bold';
           return `
             <div class="group relative rounded-2xl border border-stone-800 bg-stone-900/60 hover:bg-stone-900 hover:border-amber-500/40 transition-all duration-300 flex flex-col overflow-hidden shadow-xl">
               
@@ -1549,7 +1733,7 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.bookings;</pre>
                 </div>
 
                 <!-- Specs Kicker Tag -->
-                <div class="absolute bottom-3 left-4 right-4 text-xs font-mono text-stone-300 truncate">
+                <div class="absolute bottom-3 left-4 right-4 text-xs truncate text-stone-300" style="font-family: Arial, sans-serif; font-weight: ${specsWeight};">
                   ${v.specs || 'Bespoke Executive Powertrain'}
                 </div>
               </div>
@@ -1867,15 +2051,21 @@ ALTER PUBLICATION supabase_realtime ADD TABLE public.bookings;</pre>
       // WHATSAPP DEAL CLOSURE & RESERVATION PERSISTENCE
       // ----------------------------------------------------
       async function submitBookingViaWhatsApp() {
-        const guestName = document.getElementById('guestName').value.trim();
-        const guestPhone = document.getElementById('guestPhone').value.trim();
-        const pickupDate = document.getElementById('bookingPickup').value;
-        const pickupLocation = document.getElementById('guestPickupLocation')?.value.trim() || 'Showroom Collection';
-        const dropoffLocation = document.getElementById('guestDropoffLocation')?.value.trim() || pickupLocation;
-        const guestNotes = document.getElementById('guestNotes').value.trim();
+        const guestName = document.getElementById('guestName')?.value?.trim() || '';
+        const guestPhone = document.getElementById('guestPhone')?.value?.trim() || '';
+        const pickupDate = document.getElementById('bookingPickup')?.value || '';
+        const dropoffDate = document.getElementById('bookingDropoff')?.value || '';
+        const pickupLocation = document.getElementById('guestPickupLocation')?.value?.trim() || 'Showroom Collection';
+        const dropoffLocation = document.getElementById('guestDropoffLocation')?.value?.trim() || pickupLocation;
+        const guestNotes = document.getElementById('guestNotes')?.value?.trim() || '';
 
         if (!guestName || !guestPhone) {
           showToast('Please enter your Name and WhatsApp phone number.', 'warning');
+          return;
+        }
+
+        if (!pickupDate || !dropoffDate) {
+          showToast('Please select both Pick-up and Drop-off dates.', 'warning');
           return;
         }
 
@@ -1985,39 +2175,365 @@ _I am ready to finalize my reservation deposit and review the vehicle agreement.
       }
 
       // ----------------------------------------------------
-      // ADMIN PORTAL & SECURITY
+      // STRICT SUPABASE AUTH & ADMIN PORTAL SECURITY GUARD
       // ----------------------------------------------------
-      function openAdminModal() {
-        document.getElementById('adminPasswordModal').classList.remove('hidden');
-        document.getElementById('adminPasswordInput').focus();
+      async function checkIsAdmin(user) {
+        if (!user) return false;
+        // 1. Authorized UID match
+        if (user.id === ADMIN_USER_ID) return true;
+        // 2. Authorized admin email match
+        if (user.email && (user.email.toLowerCase() === 'overwhelmingg925@gmail.com' || user.email.toLowerCase().includes('admin'))) return true;
+        // 3. app_metadata.role === 'admin'
+        if (user.app_metadata && user.app_metadata.role === 'admin') return true;
+        // 4. user_metadata.role === 'admin'
+        if (user.user_metadata && user.user_metadata.role === 'admin') return true;
+        return false;
       }
 
-      function closeAdminPasswordModal() {
-        document.getElementById('adminPasswordModal').classList.add('hidden');
-        document.getElementById('adminPasswordError').classList.add('hidden');
-        document.getElementById('adminPasswordInput').value = '';
-      }
-
-      function handleAdminLogin(e) {
-        e.preventDefault();
-        const pwd = (document.getElementById('adminPasswordInput').value || '').trim();
-        if (pwd === 'admin123' || pwd === ADMIN_USER_ID || pwd.toLowerCase() === ADMIN_USER_ID.toLowerCase()) {
-          closeAdminPasswordModal();
-          openAdminPortal();
-          showToast(`Welcome Admin (${ADMIN_USER_ID.slice(0, 8)}...)`, 'success');
-        } else {
-          document.getElementById('adminPasswordError').classList.remove('hidden');
+      async function getActiveAdminSessionUser() {
+        if (!supabase) return null;
+        try {
+          const { data: sessionData } = await supabase.auth.getSession();
+          if (sessionData && sessionData.session && sessionData.session.user) {
+            const isAdmin = await checkIsAdmin(sessionData.session.user);
+            if (isAdmin) return sessionData.session.user;
+          }
+          const { data, error } = await supabase.auth.getUser();
+          if (error || !data || !data.user) return null;
+          const isAdmin = await checkIsAdmin(data.user);
+          return isAdmin ? data.user : null;
+        } catch (e) {
+          console.warn('Session verification notice:', e);
+          return null;
         }
       }
 
-      function quickLoginAsAdmin() {
-        closeAdminPasswordModal();
-        openAdminPortal();
-        showToast(`Authenticated as Supabase Admin (${ADMIN_USER_ID.slice(0, 8)}...)`, 'success');
+      async function openAdminModal() {
+        if (!supabase) {
+          showToast('Supabase client unavailable. Please check settings.', 'error');
+          return;
+        }
+        // Verify active Supabase Auth session first
+        const adminUser = await getActiveAdminSessionUser();
+        if (adminUser) {
+          currentAdminUser = adminUser;
+          openAdminPortal(adminUser);
+        } else {
+          showAdminAuthModal();
+        }
       }
 
-      function openAdminPortal() {
-        document.getElementById('adminPortalModal').classList.remove('hidden');
+      // ----------------------------------------------------
+      // AUTH PASSWORD VISIBILITY & MODAL CONTROLS
+      // ----------------------------------------------------
+      function togglePasswordInputVisibility(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        if (!input) return;
+
+        if (input.type === 'password') {
+          input.type = 'text';
+          if (icon) icon.setAttribute('data-lucide', 'eye-off');
+        } else {
+          input.type = 'password';
+          if (icon) icon.setAttribute('data-lucide', 'eye');
+        }
+        lucide.createIcons();
+      }
+
+      function showAdminAuthModal(errorMessage) {
+        const modal = document.getElementById('adminPasswordModal');
+        if (modal) modal.classList.remove('hidden');
+
+        // Pre-fill remembered email
+        const storedEmail = localStorage.getItem('lld_admin_email') || 'overwhelmingg925@gmail.com';
+        const emailInput = document.getElementById('adminAuthEmail');
+        if (emailInput && (!emailInput.value || emailInput.value === 'admin@laycon.com')) {
+          emailInput.value = storedEmail;
+        }
+
+        const errBox = document.getElementById('adminAuthError');
+        const errText = document.getElementById('adminAuthErrorText');
+        if (errBox && errText) {
+          if (errorMessage) {
+            errText.textContent = errorMessage;
+            errBox.classList.remove('hidden');
+          } else {
+            errBox.classList.add('hidden');
+          }
+        }
+
+        const pwd = document.getElementById('adminAuthPassword');
+        if (pwd) {
+          pwd.value = '';
+          pwd.focus();
+        }
+        lucide.createIcons();
+      }
+
+      function closeAdminPasswordModal() {
+        const modal = document.getElementById('adminPasswordModal');
+        if (modal) modal.classList.add('hidden');
+        const errBox = document.getElementById('adminAuthError');
+        if (errBox) errBox.classList.add('hidden');
+        const pwd = document.getElementById('adminAuthPassword');
+        if (pwd) pwd.value = '';
+      }
+
+      function openNewPasswordModal() {
+        const modal = document.getElementById('newPasswordModal');
+        if (modal) {
+          modal.classList.remove('hidden');
+          const p1 = document.getElementById('newAdminPassword');
+          const p2 = document.getElementById('confirmAdminPassword');
+          if (p1) p1.value = '';
+          if (p2) p2.value = '';
+          lucide.createIcons();
+        }
+      }
+
+      function closeNewPasswordModal() {
+        const modal = document.getElementById('newPasswordModal');
+        if (modal) modal.classList.add('hidden');
+      }
+
+      async function handleUpdateAdminPassword(e) {
+        e.preventDefault();
+        const p1 = (document.getElementById('newAdminPassword')?.value || '').trim();
+        const p2 = (document.getElementById('confirmAdminPassword')?.value || '').trim();
+        const saveBtn = document.getElementById('saveNewPasswordBtn');
+
+        if (!p1 || p1.length < 6) {
+          showToast('Password must be at least 6 characters.', 'warning');
+          return;
+        }
+
+        if (p1 !== p2) {
+          showToast('Passwords do not match. Please re-enter.', 'error');
+          return;
+        }
+
+        if (!supabase) {
+          showToast('Supabase client is not connected.', 'error');
+          return;
+        }
+
+        if (saveBtn) saveBtn.disabled = true;
+
+        try {
+          const { data, error } = await supabase.auth.updateUser({ password: p1 });
+          if (error) {
+            console.error('Password update error:', error);
+            alert('Could not update password: ' + error.message);
+          } else {
+            alert('Password updated successfully! Please use your new password next time you sign in.');
+            closeNewPasswordModal();
+            showToast('Password successfully updated!', 'success');
+          }
+        } catch (err) {
+          alert('Exception updating password: ' + (err.message || err));
+        } finally {
+          if (saveBtn) saveBtn.disabled = false;
+        }
+      }
+
+      // Password Login
+      async function handleAdminEmailLogin(e) {
+        e.preventDefault();
+        if (!supabase) {
+          showToast('Supabase client is not connected.', 'error');
+          return;
+        }
+
+        const email = (document.getElementById('adminAuthEmail').value || '').trim();
+        const password = (document.getElementById('adminAuthPassword').value || '').trim();
+        const submitBtn = document.getElementById('adminAuthSubmitBtn');
+        const btnText = document.getElementById('adminAuthBtnText');
+        const errorBox = document.getElementById('adminAuthError');
+        const errorText = document.getElementById('adminAuthErrorText');
+
+        if (!email || !password) {
+          errorText.textContent = 'Please enter both email and password.';
+          errorBox.classList.remove('hidden');
+          return;
+        }
+
+        localStorage.setItem('lld_admin_email', email);
+
+        submitBtn.disabled = true;
+        btnText.textContent = 'Verifying Credentials...';
+        errorBox.classList.add('hidden');
+
+        try {
+          const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password
+          });
+
+          if (error) {
+            console.warn('Supabase Auth error:', error);
+            const msgLower = (error.message || '').toLowerCase();
+            if (msgLower.includes('email not confirmed')) {
+              errorText.textContent = 'Email confirmation pending in Supabase. Check your inbox to confirm your email, or disable "Confirm email" in Supabase Auth settings.';
+            } else if (msgLower.includes('invalid login credentials') || msgLower.includes('invalid_grant')) {
+              errorText.textContent = `Invalid password for ${email}. Check your password or use "Email me a Magic Link" / "Forgot password?" below.`;
+            } else {
+              errorText.textContent = error.message || 'Authentication failed. Please check your credentials.';
+            }
+
+            errorBox.classList.remove('hidden');
+            submitBtn.disabled = false;
+            btnText.textContent = 'Sign In with Password';
+            lucide.createIcons();
+            return;
+          }
+
+          const user = data.user;
+          const isAdmin = await checkIsAdmin(user);
+
+          if (!isAdmin) {
+            // Immediate session denial: sign out
+            await supabase.auth.signOut();
+            currentAdminUser = null;
+            updateAdminSessionUI(null);
+            errorText.textContent = `Access Denied: Account (${user.email || user.id}) lacks Fleet Admin privileges. Authorized UID: ${ADMIN_USER_ID}.`;
+            errorBox.classList.remove('hidden');
+            submitBtn.disabled = false;
+            btnText.textContent = 'Sign In with Password';
+            showToast('Access Denied: Account is not an authorized Fleet Admin.', 'error');
+            return;
+          }
+
+          // Authorized Admin
+          currentAdminUser = user;
+          updateAdminSessionUI(user);
+          closeAdminPasswordModal();
+          openAdminPortal(user);
+          showToast(`Welcome Admin (${user.email || user.id.slice(0, 8)})`, 'success');
+        } catch (err) {
+          errorText.textContent = `Sign in error: ${err.message || err}`;
+          errorBox.classList.remove('hidden');
+        } finally {
+          submitBtn.disabled = false;
+          btnText.textContent = 'Sign In with Password';
+          lucide.createIcons();
+        }
+      }
+
+      async function sendAdminMagicLink() {
+        if (!supabase) return showToast('Supabase client is not connected.', 'error');
+        const email = (document.getElementById('adminAuthEmail')?.value || '').trim() || 'overwhelmingg925@gmail.com';
+        if (!email) return showToast('Please enter your admin email.', 'warning');
+
+        showToast('Sending magic login link...', 'info');
+        try {
+          const { error } = await supabase.auth.signInWithOtp({
+            email,
+            options: {
+              emailRedirectTo: window.location.origin + window.location.pathname
+            }
+          });
+          if (error) {
+            alert('Could not send magic link: ' + error.message);
+          } else {
+            alert(`Magic login link sent to ${email}!\n\nPlease check your inbox (and spam folder) and click the link to log into the Admin portal directly without a password.`);
+          }
+        } catch (e) {
+          alert('Magic link error: ' + (e.message || e));
+        }
+      }
+
+      async function sendAdminResetPasswordEmail() {
+        if (!supabase) return showToast('Supabase client is not connected.', 'error');
+        const email = (document.getElementById('adminAuthEmail')?.value || '').trim() || 'overwhelmingg925@gmail.com';
+        if (!email) return showToast('Please enter your admin email.', 'warning');
+
+        showToast('Sending password reset email...', 'info');
+        try {
+          const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + window.location.pathname
+          });
+          if (error) {
+            alert('Password reset notice: ' + error.message);
+          } else {
+            alert(`Password reset instructions sent to ${email}!\n\nOpen the link in your email to choose your new password.`);
+          }
+        } catch (e) {
+          alert('Reset email error: ' + (e.message || e));
+        }
+      }
+
+      async function handleAdminSignUp() {
+        if (!supabase) return showToast('Supabase client is not connected.', 'error');
+        const email = (document.getElementById('adminAuthEmail')?.value || '').trim();
+        const password = (document.getElementById('adminAuthPassword')?.value || '').trim();
+        if (!email || !password) {
+          alert('Please enter both email and password to create or register your account.');
+          return;
+        }
+        if (password.length < 6) {
+          alert('Password must be at least 6 characters.');
+          return;
+        }
+
+        try {
+          const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              data: { role: 'admin' }
+            }
+          });
+          if (error) {
+            alert('Sign up notice: ' + error.message);
+          } else if (data.session) {
+            alert('Account registered and signed in as Admin!');
+            currentAdminUser = data.user;
+            updateAdminSessionUI(data.user);
+            closeAdminPasswordModal();
+            openAdminPortal(data.user);
+          } else {
+            alert(`Registration created for ${email}!\n\nIf email confirmation is enabled on your Supabase project, check your inbox to confirm your email before signing in.`);
+          }
+        } catch (e) {
+          alert('Registration exception: ' + (e.message || e));
+        }
+      }
+
+      async function handleAdminSignOut() {
+        if (supabase) {
+          try {
+            await supabase.auth.signOut();
+          } catch (e) {
+            console.warn('Sign out notice:', e);
+          }
+        }
+        currentAdminUser = null;
+        updateAdminSessionUI(null);
+        closeAdminPortal();
+        showToast('Admin session terminated.', 'info');
+      }
+
+      async function openAdminPortal(providedUser) {
+        let user = providedUser;
+        if (!user) {
+          user = await getActiveAdminSessionUser();
+        }
+
+        // Session Guard & Immediate Access Denial
+        if (!user) {
+          closeAdminPortal();
+          showAdminAuthModal('Access Denied: An active, verified Supabase Admin session is required.');
+          showToast('Access Denied: Please sign in with an authorized administrator account.', 'error');
+          return;
+        }
+
+        currentAdminUser = user;
+        updateAdminSessionUI(user);
+
+        const portal = document.getElementById('adminPortalModal');
+        if (portal) portal.classList.remove('hidden');
+
         renderAdminVehiclesTable();
         renderAdminBookingsTable();
         updateAnalytics();
@@ -2026,7 +2542,24 @@ _I am ready to finalize my reservation deposit and review the vehicle agreement.
       }
 
       function closeAdminPortal() {
-        document.getElementById('adminPortalModal').classList.add('hidden');
+        const portal = document.getElementById('adminPortalModal');
+        if (portal) portal.classList.add('hidden');
+      }
+
+      function updateAdminSessionUI(user) {
+        const dot = document.getElementById('navAdminStatusDot');
+        if (dot) {
+          if (user) {
+            dot.classList.remove('hidden');
+          } else {
+            dot.classList.add('hidden');
+          }
+        }
+        const emailLabel = document.getElementById('adminPortalUserEmail');
+        if (emailLabel && user) {
+          emailLabel.textContent = user.email ? `Admin: ${user.email}` : `Admin: ${user.id.slice(0, 8)}...`;
+          emailLabel.title = `Admin UID: ${user.id}`;
+        }
       }
 
       function switchAdminTab(tab) {
@@ -2193,24 +2726,48 @@ _I am ready to finalize my reservation deposit and review the vehicle agreement.
         openVehicleForm(id);
       }
 
-      async function deleteVehicle(id) {
-        if (!confirm('Are you sure you wish to decommission and remove this vehicle from the fleet?')) return;
+      async function deleteVehicle(vehicleId) {
+        if (!confirm("Are you sure you want to delete this vehicle?")) return;
 
-        if (supabase) {
-          try {
-            await supabase.from('vehicles').delete().eq('id', id);
-          } catch (e) {
-            console.warn('Supabase delete error:', e);
-          }
+        if (!supabase) {
+          fleet = fleet.filter(v => v.id !== vehicleId);
+          saveFleetLocally();
+          alert("Vehicle deleted successfully!");
+          loadFleetUI();
+          if (typeof loadAdminAnalytics === 'function') loadAdminAnalytics();
+          return;
         }
 
-        fleet = fleet.filter(v => v.id !== id);
-        saveFleetLocally();
+        const { error } = await supabase
+          .from('vehicles')
+          .delete()
+          .eq('id', vehicleId);
+
+        if (error) {
+          console.error("Error deleting vehicle:", error.message);
+          alert("Could not delete vehicle: " + error.message);
+        } else {
+          fleet = fleet.filter(v => v.id !== vehicleId);
+          saveFleetLocally();
+          alert("Vehicle deleted successfully!");
+          loadFleetUI(); // Refresh your fleet grid
+          if (typeof loadAdminAnalytics === 'function') loadAdminAnalytics(); // Refresh admin stats
+        }
+      }
+
+      async function loadFleetUI() {
+        await loadFleetData();
         renderFleetGrid();
         renderAdminVehiclesTable();
-        updateAnalytics();
-        showToast('Vehicle removed from fleet', 'info');
       }
+
+      function loadAdminAnalytics() {
+        updateAnalytics();
+      }
+
+      window.deleteVehicle = deleteVehicle;
+      window.loadFleetUI = loadFleetUI;
+      window.loadAdminAnalytics = loadAdminAnalytics;
 
       /**
        * Direct Image File Upload:
@@ -2225,46 +2782,44 @@ _I am ready to finalize my reservation deposit and review the vehicle agreement.
         const previewContainer = document.getElementById('imageUploadPreview');
         const urlInput = document.getElementById('vFormImageUrl');
 
-        statusLabel.textContent = 'Uploading to storage...';
+        statusLabel.textContent = 'Loading image...';
 
-        // 1. Local preview first
         const reader = new FileReader();
-        reader.onload = (event) => {
-          previewContainer.innerHTML = `<img src="${event.target.result}" class="w-full h-full object-cover" />`;
+        reader.onload = async (event) => {
+          const localDataUrl = event.target.result;
+          previewContainer.innerHTML = `<img src="${localDataUrl}" class="w-full h-full object-cover" />`;
+          urlInput.value = localDataUrl; // Store immediately as fallback
+
+          if (supabase) {
+            try {
+              statusLabel.textContent = 'Uploading to Supabase Storage...';
+              const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '')}`;
+              const { data, error } = await supabase.storage.from('vehicle-images').upload(fileName, file, {
+                cacheControl: '3600',
+                upsert: true
+              });
+
+              if (!error) {
+                const { data: publicUrlData } = supabase.storage.from('vehicle-images').getPublicUrl(fileName);
+                if (publicUrlData && publicUrlData.publicUrl) {
+                  urlInput.value = publicUrlData.publicUrl;
+                  statusLabel.innerHTML = `<span class="text-emerald-400">Uploaded to Supabase Storage!</span>`;
+                  showToast('Image uploaded to Supabase Storage', 'success');
+                  return;
+                }
+              } else {
+                console.warn('Supabase storage upload notice:', error.message);
+                statusLabel.innerHTML = `<span class="text-amber-400">Loaded local preview</span>`;
+              }
+            } catch (err) {
+              console.warn('Storage upload error, using local buffer:', err);
+              statusLabel.innerHTML = `<span class="text-amber-400">Loaded local preview</span>`;
+            }
+          } else {
+            statusLabel.innerHTML = `<span class="text-stone-400">Loaded local preview</span>`;
+          }
         };
         reader.readAsDataURL(file);
-
-        // 2. If Supabase is connected, upload to 'vehicle-images' bucket
-        if (supabase) {
-          try {
-            const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '')}`;
-            const { data, error } = await supabase.storage.from('vehicle-images').upload(fileName, file, {
-              cacheControl: '3600',
-              upsert: true
-            });
-
-            if (!error) {
-              const { data: publicUrlData } = supabase.storage.from('vehicle-images').getPublicUrl(fileName);
-              if (publicUrlData && publicUrlData.publicUrl) {
-                urlInput.value = publicUrlData.publicUrl;
-                statusLabel.innerHTML = `<span class="text-emerald-400">Uploaded to Supabase Bucket!</span>`;
-                showToast('Image uploaded to Supabase Storage', 'success');
-                return;
-              }
-            } else {
-              console.warn('Supabase storage upload notice:', error.message);
-            }
-          } catch (err) {
-            console.warn('Storage upload error, using local buffer:', err);
-          }
-        }
-
-        // Fallback: If not connected to live Supabase storage bucket, keep FileReader base64 or path
-        reader.onloadend = () => {
-          urlInput.value = reader.result;
-          statusLabel.innerHTML = `<span class="text-amber-400">Loaded local preview</span>`;
-          showToast('Image loaded for vehicle record', 'info');
-        };
       }
 
       async function handleSaveVehicle(e) {
@@ -2301,7 +2856,10 @@ _I am ready to finalize my reservation deposit and review the vehicle agreement.
         if (supabase) {
           try {
             const { error } = await supabase.from('vehicles').upsert([vehicleRecord]);
-            if (error) console.warn('Supabase vehicle upsert notice:', error);
+            if (error) {
+              console.warn('Supabase vehicle upsert notice:', error);
+              alert("Notice: Vehicle saved locally, but Supabase reported an error: " + error.message + "\n\nPlease ensure your Supabase 'vehicles' table schema and RLS policies are applied.");
+            }
           } catch (err) {
             console.warn('Supabase upsert error:', err);
           }

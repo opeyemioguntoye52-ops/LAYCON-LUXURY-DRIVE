@@ -56,65 +56,10 @@ export interface Booking {
   created_at?: string;
 }
 
-// Initial Default Vehicles
-export const DEFAULT_VEHICLES: Vehicle[] = [
-  {
-    id: 'a01b2c3d-4e5f-4678-90ab-cdef12345678',
-    name: 'Mercedes-Maybach S 680 4MATIC',
-    category: 'Executive Sedan',
-    description: 'The pinnacle of chauffeured luxury. Handcrafted Nappa leather, reclining rear executive suites, champagne refrigerator, and Burmester 4D high-end audio.',
-    specs: '6.0L V12 Biturbo · 621 HP · 0-60 in 4.4s',
-    image_url: maybachHeroImg,
-    rate_1hr: 250,
-    rate_3hr: 650,
-    rate_6hr: 1100,
-    rate_12hr: 1850,
-    rate_daily: 2800,
-    is_active: true
-  },
-  {
-    id: 'b01b2c3d-4e5f-4678-90ab-cdef12345678',
-    name: 'Rolls-Royce Cullinan Black Badge',
-    category: 'Ultra-Luxury SUV',
-    description: 'Unrivaled regal presence. Starlight headliner, bespoke lambswool over-rugs, whisper-quiet cabin acoustics, and effortless Magic Carpet Ride air suspension.',
-    specs: '6.75L V12 Twin-Turbo · 592 HP · All-Wheel Steer',
-    image_url: '/assets/fleet/car_rolls_cullinan_1793755719815.jpg',
-    rate_1hr: 350,
-    rate_3hr: 900,
-    rate_6hr: 1550,
-    rate_12hr: 2400,
-    rate_daily: 3600,
-    is_active: true
-  },
-  {
-    id: 'c01b2c3d-4e5f-4678-90ab-cdef12345678',
-    name: 'Porsche 911 Carrera GTS',
-    category: 'Exotic Sports',
-    description: 'Surgical German driving dynamics. Sport Chrono package, active sport exhaust, lightweight carbon bucket seats, and razor-sharp steering feedback.',
-    specs: '3.0L Twin-Turbo Boxer · 473 HP · 0-60 in 3.1s',
-    image_url: '/assets/fleet/car_porsche_gt3_1793755719706.jpg',
-    rate_1hr: 220,
-    rate_3hr: 550,
-    rate_6hr: 950,
-    rate_12hr: 1500,
-    rate_daily: 2200,
-    is_active: true
-  },
-  {
-    id: 'd01b2c3d-4e5f-4678-90ab-cdef12345678',
-    name: 'Lamborghini Urus Performante',
-    category: 'Super SUV',
-    description: 'Supercar agility fused with commanding SUV stance. Akrapovič titanium exhaust system, carbon fiber bonnet and aero package with launch control.',
-    specs: '4.0L Twin-Turbo V8 · 657 HP · 0-60 in 3.0s',
-    image_url: '/assets/fleet/car_lamborghini_urus_1793755720034.jpg',
-    rate_1hr: 300,
-    rate_3hr: 800,
-    rate_6hr: 1350,
-    rate_12hr: 2100,
-    rate_daily: 3100,
-    is_active: true
-  }
-];
+// Change from hardcoded array to empty array
+export const initialVehicles: Vehicle[] = [];
+export const DEFAULT_VEHICLES: Vehicle[] = initialVehicles;
+
 
 // Supabase fetching & seeding hooks querying 'vehicles' table
 export async function fetchVehicles(): Promise<Vehicle[]> {
@@ -145,6 +90,28 @@ export async function seedVehicles(): Promise<boolean> {
     }
   }
   return false;
+}
+
+export async function deleteVehicle(vehicleId: string) {
+  if (typeof window !== 'undefined' && !window.confirm("Are you sure you want to delete this vehicle?")) return;
+
+  if (supabase) {
+    const { error } = await supabase
+      .from('vehicles')
+      .delete()
+      .eq('id', vehicleId);
+
+    if (error) {
+      console.error("Error deleting vehicle:", error.message);
+      if (typeof window !== 'undefined') alert("Could not delete vehicle: " + error.message);
+    } else {
+      if (typeof window !== 'undefined') {
+        alert("Vehicle deleted successfully!");
+        if (typeof (window as any).loadFleetUI === 'function') (window as any).loadFleetUI();
+        if (typeof (window as any).loadAdminAnalytics === 'function') (window as any).loadAdminAnalytics();
+      }
+    }
+  }
 }
 
 export function useVehicles() {
