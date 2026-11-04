@@ -1,0 +1,6 @@
+{
+  "name": "Laycon Luxury Drive - Elite Car Rental & Fleet Concierge",
+  "description": "Bespoke luxury automotive rental agency featuring multi-tier rates, real-time date availability, WhatsApp booking confirmation, and executive fleet management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

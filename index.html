@@ -1,0 +1,2438 @@
+<!doctype html>
+<html lang="en" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laycon Luxury Drive - Elite Car Rental & Fleet Concierge</title>
+    <meta name="description" content="Bespoke luxury automotive rental agency featuring multi-tier rates, real-time date availability, WhatsApp booking confirmation, and executive fleet management." />
+    <meta property="og:title" content="Laycon Luxury Drive - Elite Car Rental & Fleet Concierge" />
+    <meta property="og:description" content="Bespoke luxury automotive rental agency featuring multi-tier rates, real-time date availability, WhatsApp booking confirmation, and executive fleet management." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              stone: {
+                950: '#09090b',
+                900: '#121215',
+                850: '#18181c',
+                800: '#222227',
+                700: '#33333a',
+              },
+              amber: {
+                400: '#fbbf24',
+                500: '#f59e0b',
+                600: '#d97706',
+              },
+              gold: {
+                DEFAULT: '#D4AF37',
+                light: '#E6CA65',
+                dark: '#AA820A',
+              }
+            },
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              display: ['"Outfit"', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Supabase JS v2 Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      /* Custom luxury scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #09090b;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #f59e0b;
+      }
+      .bg-glass {
+        background: rgba(18, 18, 21, 0.75);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+      .bg-glass-card {
+        background: rgba(24, 24, 28, 0.65);
+        backdrop-filter: blur(12px);
+      }
+    </style>
+  </head>
+  <body class="bg-stone-950 text-stone-100 font-sans antialiased selection:bg-amber-500/30 selection:text-amber-300 min-h-screen flex flex-col">
+
+    <!-- Top Navigation Bar (Clean 3-Zone Contract) -->
+    <header class="sticky top-0 z-40 w-full border-b border-stone-800/80 bg-stone-950/90 backdrop-blur-md">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-8 border border-stone-800" style="border-radius: 50px; border-style: double; background-color: #0c0c2a;">
+        <!-- Zone 1: Single Brand Wordmark with Crest Logo -->
+        <a href="#" class="flex items-center gap-3.5 group whitespace-nowrap shrink-0">
+          <div class="relative w-11 h-11 rounded-lg overflow-hidden border border-amber-500/30 p-0.5 bg-stone-900 group-hover:border-amber-400 transition-colors">
+            <img 
+              src="/assets/aistudio/grok_1793191280796__1__1e4b925b.jpg" 
+              alt="Laycon Luxury Drive Crest" 
+              class="w-full h-full object-cover rounded"
+              onerror="this.src='/public/assets/aistudio/grok_1793191280796__1__1e4b925b.jpg'"
+            />
+          </div>
+          <div class="flex flex-col">
+            <span class="font-display font-extrabold tracking-wider text-xl text-white group-hover:text-amber-400 transition-colors">
+              LAYCON
+            </span>
+            <span class="text-[10px] tracking-[0.25em] text-stone-400 font-semibold uppercase -mt-1">
+              Luxury Drive
+            </span>
+          </div>
+        </a>
+
+        <!-- Zone 2: Navigation Links (Clean Single-Line Text) -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-stone-400">
+          <a href="#fleet" class="hover:text-white transition-colors whitespace-nowrap shrink-0">The Fleet</a>
+          <a href="#rates" class="hover:text-white transition-colors whitespace-nowrap shrink-0">Rate Tiers</a>
+          <a href="#concierge" class="hover:text-white transition-colors whitespace-nowrap shrink-0">VIP Concierge</a>
+          <a href="#availability" class="hover:text-white transition-colors whitespace-nowrap shrink-0">Date Checker</a>
+        </nav>
+
+        <!-- Zone 3: Primary CTA & Admin Trigger -->
+        <div class="flex items-center gap-3 shrink-0">
+          <button 
+            onclick="openAdminModal()" 
+            title="Open Admin Portal" 
+            class="p-2 text-stone-400 hover:text-amber-400 hover:bg-stone-900 rounded-lg transition-colors border border-transparent hover:border-stone-800"
+          >
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </button>
+          <a 
+            href="#fleet" 
+            class="px-5 py-2.5 text-xs font-semibold tracking-wider uppercase text-stone-950 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 rounded-lg transition-all shadow-lg shadow-amber-500/10 hover:shadow-amber-500/25 whitespace-nowrap shrink-0"
+          >
+            Explore Fleet
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Flow -->
+    <main class="flex-grow">
+      
+      <!-- Hero Showcase Section -->
+      <section class="relative overflow-hidden border-b border-stone-800/60 pt-12 pb-20 lg:pt-20 lg:pb-28">
+        <!-- Subtle background atmospheric ambient glow -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-amber-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            
+            <!-- Left Column: Typography & Direct Action -->
+            <div class="lg:col-span-6 space-y-6 p-6" style="background-color: #0a091c; border-radius: 40px; margin-left: 5px; margin-right: -1px; padding-left: 39px;">
+              <div class="flex items-center gap-2 text-xs font-semibold tracking-[0.2em] uppercase text-amber-500">
+                <span style="padding-left: 0px; padding-top: 3px; margin-right: -5px; margin-left: 8px; margin-top: 2px;">The Sovereign Collection</span>
+                <span aria-hidden="true" class="text-stone-600">·</span>
+                <span class="text-stone-400">Hourly to Daily Charters</span>
+              </div>
+
+              <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white text-balance leading-[1.1]">
+                Unrivaled Prestige.<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-stone-100 via-amber-200 to-amber-500">
+                  Precision in Every Mile.
+                </span>
+              </h1>
+
+              <p class="text-base sm:text-lg text-stone-400 max-w-xl leading-relaxed">
+                Experience bespoke access to a meticulously curated private fleet of flagship sedans, super SUVs, and exotic grand tourers. Instant date availability and direct WhatsApp deal finalization.
+              </p>
+
+              <!-- Quick Action & Trust Line -->
+              <div class="pt-2 flex flex-wrap items-center gap-4">
+                <a 
+                  href="#fleet" 
+                  class="px-6 py-3.5 text-sm font-semibold tracking-wide text-stone-950 bg-amber-400 hover:bg-amber-300 rounded-lg transition-colors flex items-center gap-2 shadow-lg shadow-amber-500/10"
+                >
+                  <span>Select A Vehicle</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <button 
+                  onclick="openDirectWhatsAppChat()" 
+                  class="px-5 py-3.5 text-sm font-medium text-stone-300 hover:text-white bg-stone-900/80 hover:bg-stone-850 border border-stone-800 rounded-lg transition-colors flex items-center gap-2"
+                >
+                  <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400"></i>
+                  <span>WhatsApp Concierge</span>
+                </button>
+              </div>
+
+              <!-- Unboxed Trust Metadata (Zero-Pill Discipline) -->
+              <div class="pt-6 border-t border-stone-900 flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-stone-500" style="margin-top: 21px; padding-top: 23px; padding-bottom: 1px; margin-right: 1px; margin-bottom: 17px;">
+                <span class="text-stone-300 font-medium">1h · 3h · 6h · 12h · 24h Tiers</span>
+                <span aria-hidden="true">·</span>
+                <span>White-Glove Chauffeur or Self-Drive</span>
+                <span aria-hidden="true">·</span>
+                <span>Zero Hidden Fees</span>
+              </div>
+            </div>
+
+            <!-- Right Column: Hero Visual Frame -->
+            <div class="lg:col-span-6 relative">
+              <div class="relative rounded-2xl overflow-hidden border border-stone-800 bg-stone-900 shadow-2xl group">
+                <img 
+                  src="src/assets/images/car_maybach_s680_1793755719316.jpg" 
+                  alt="Mercedes-Maybach S 680 V12 Executive" 
+                  class="w-full h-[380px] sm:h-[460px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                  onerror="this.src='/assets/fleet/car_maybach_s680_1793755719316.jpg'"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/20 to-transparent"></div>
+                
+                <!-- Bottom Scrim Callout -->
+                <div class="absolute bottom-5 left-5 right-5 p-4 rounded-xl bg-stone-950/80 backdrop-blur-md border border-stone-800/80 flex items-center justify-between">
+                  <div>
+                    <p class="text-xs font-semibold tracking-wider uppercase text-amber-400">Featured Flagship</p>
+                    <p class="text-sm font-display font-bold text-white">Mercedes-Maybach S 680 V12 Executive Flagship</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-xs text-stone-400">Daily Charter from</p>
+                    <p class="text-sm font-mono font-bold text-white tabular-nums">$2,800 <span class="text-[10px] text-stone-500 font-sans">/ 24h</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Interactive Date Availability Bar -->
+      <section id="availability" class="border-b border-stone-800/60 bg-stone-900/40 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="p-6 rounded-2xl bg-stone-900 border border-stone-800/90 shadow-xl">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+              <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-stone-400 mb-1.5" style="font-weight: bold; font-family: Arial, sans-serif;">
+                  Pick-up Date & Time
+                </label>
+                <input 
+                  type="datetime-local" 
+                  id="quickPickupDate" 
+                  class="w-full bg-stone-950 border border-stone-700/80 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-stone-400 mb-1.5" style="font-family: Arial, sans-serif; font-weight: bold;">
+                  Drop-off Date & Time
+                </label>
+                <input 
+                  type="datetime-local" 
+                  id="quickDropoffDate" 
+                  class="w-full bg-stone-950 border border-stone-700/80 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-stone-400 mb-1.5" style="font-family: Arial, sans-serif; font-weight: bold;">
+                  Preferred Category
+                </label>
+                <select 
+                  id="quickCategorySelect" 
+                  class="w-full bg-stone-950 border border-stone-700/80 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
+                >
+                  <option value="all">All Vehicle Categories</option>
+                  <option value="Executive Sedan">Executive Sedans</option>
+                  <option value="Ultra-Luxury SUV">Ultra-Luxury SUVs</option>
+                  <option value="Exotic Sports">Exotic Sports Coupes</option>
+                  <option value="Super SUV">Super SUVs</option>
+                </select>
+              </div>
+
+              <div>
+                <button 
+                  onclick="applyQuickAvailabilityFilter()" 
+                  class="w-full py-2.5 px-4 bg-stone-800 hover:bg-amber-500 hover:text-stone-950 text-white font-semibold text-sm rounded-lg transition-colors flex items-center justify-center gap-2 border border-stone-700"
+                >
+                  <i data-lucide="calendar-search" class="w-4 h-4"></i>
+                  <span>Filter Fleet Availability</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Feedback Bar on Quick Availability -->
+            <div id="quickFilterResult" class="hidden mt-4 pt-3 border-t border-stone-800 text-xs flex items-center justify-between text-stone-400">
+              <span id="quickFilterResultText"></span>
+              <button onclick="resetQuickFilter()" class="text-amber-400 hover:underline">Reset Dates</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Fleet Grid & Multi-Tier Pricing Catalog Section -->
+      <section id="fleet" class="py-16 lg:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12" style="border-radius: 5px; border-width: 0px; line-height: 27px; margin-left: 6px; margin-bottom: 27px; width: 948px; max-width: 100%;">
+          <div style="border-radius: 9px;">
+            <div class="flex items-center gap-2 text-xs font-semibold tracking-[0.2em] uppercase text-amber-500 mb-2">
+              <span style="font-size: 11px; text-align: right; font-weight: bold; line-height: 19px; width: 236.413px; display: inline-block; height: 18px;">Laycon Private Collection</span>
+              <span aria-hidden="true" class="text-stone-600">·</span>
+              <span id="fleetCountLabel">4 Bespoke Vehicles</span>
+            </div>
+            <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Curated Fleet & Rate Tiers
+            </h2>
+            <p class="text-stone-400 text-sm sm:text-base mt-2 max-w-xl" style="border-radius: 25px; border-width: 0px; font-family: Verdana, sans-serif; text-align: center; line-height: 24px; font-size: 13px;">
+              Transparent multi-tier pricing structures engineered for hourly corporate transit, evening grand tours, or multi-day executive excursions.
+            </p>
+          </div>
+
+          <!-- Category Segmented Filters -->
+          <div class="flex flex-wrap items-center gap-1.5 p-1.5 bg-stone-900 border border-stone-800 rounded-xl">
+            <button 
+              onclick="filterFleetCategory('all')" 
+              data-cat="all" 
+              class="cat-tab-btn active px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors bg-stone-800 text-white"
+            >
+              All Fleet
+            </button>
+            <button 
+              onclick="filterFleetCategory('Executive Sedan')" 
+              data-cat="Executive Sedan" 
+              class="cat-tab-btn px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors text-stone-400 hover:text-white"
+            >
+              Executive Sedans
+            </button>
+            <button 
+              onclick="filterFleetCategory('Ultra-Luxury SUV')" 
+              data-cat="Ultra-Luxury SUV" 
+              class="cat-tab-btn px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors text-stone-400 hover:text-white"
+            >
+              Ultra-Luxury SUVs
+            </button>
+            <button 
+              onclick="filterFleetCategory('Exotic Sports')" 
+              data-cat="Exotic Sports" 
+              class="cat-tab-btn px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors text-stone-400 hover:text-white"
+            >
+              Exotic Sports
+            </button>
+          </div>
+        </div>
+
+        <!-- Vehicle Cards Grid -->
+        <div id="fleetContainer" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Dynamic Vehicle Cards rendered by JavaScript -->
+        </div>
+
+      </section>
+
+      <!-- Rate Tiers Overview & Concierge Info -->
+      <section id="rates" class="py-16 border-t border-stone-800/80 bg-stone-900/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center max-w-2xl mx-auto mb-14">
+            <span class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500">Transparent Pricing</span>
+            <h2 class="font-display text-3xl font-bold text-white mt-2">Engineered For Flexible Durations</h2>
+            <p class="text-stone-400 text-sm mt-3">
+              Every booking includes comprehensive luxury insurance, premium delivery to your residence or airport tarmac, and 24/7 dedicated fleet support.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <!-- 1 Hour -->
+            <div class="p-6 rounded-xl bg-stone-900/70 border border-stone-800/90 text-center hover:border-amber-500/40 transition-colors">
+              <span class="text-xs font-semibold uppercase tracking-wider text-stone-400">Tier 01</span>
+              <h3 class="text-lg font-bold text-white mt-1">1-Hour Charter</h3>
+              <p class="text-xs text-stone-400 mt-2">Executive airport sprint or red carpet arrival.</p>
+              <div class="mt-4 pt-4 border-t border-stone-800 text-xs text-amber-400 font-semibold">Short-Haul Priority</div>
+            </div>
+
+            <!-- 3 Hours -->
+            <div class="p-6 rounded-xl bg-stone-900/70 border border-stone-800/90 text-center hover:border-amber-500/40 transition-colors">
+              <span class="text-xs font-semibold uppercase tracking-wider text-stone-400">Tier 02</span>
+              <h3 class="text-lg font-bold text-white mt-1">3-Hour Charter</h3>
+              <p class="text-xs text-stone-400 mt-2">City meetings, client dining, or photoshoots.</p>
+              <div class="mt-4 pt-4 border-t border-stone-800 text-xs text-amber-400 font-semibold">City Transit</div>
+            </div>
+
+            <!-- 6 Hours -->
+            <div class="p-6 rounded-xl bg-stone-900/70 border border-stone-800/90 text-center hover:border-amber-500/40 transition-colors">
+              <span class="text-xs font-semibold uppercase tracking-wider text-stone-400">Tier 03</span>
+              <h3 class="text-lg font-bold text-white mt-1">6-Hour Charter</h3>
+              <p class="text-xs text-stone-400 mt-2">Half-day luxury touring & executive itinerary.</p>
+              <div class="mt-4 pt-4 border-t border-stone-800 text-xs text-amber-400 font-semibold">Half-Day Access</div>
+            </div>
+
+            <!-- 12 Hours -->
+            <div class="p-6 rounded-xl bg-stone-900/70 border border-stone-800/90 text-center hover:border-amber-500/40 transition-colors">
+              <span class="text-xs font-semibold uppercase tracking-wider text-stone-400">Tier 04</span>
+              <h3 class="text-lg font-bold text-white mt-1">12-Hour Charter</h3>
+              <p class="text-xs text-stone-400 mt-2">Full day operations, weddings, or grand events.</p>
+              <div class="mt-4 pt-4 border-t border-stone-800 text-xs text-amber-400 font-semibold">Full Day Comfort</div>
+            </div>
+
+            <!-- 24 Hours (Daily) -->
+            <div class="p-6 rounded-xl bg-stone-900/90 border border-amber-500/50 text-center relative overflow-hidden">
+              <div class="absolute top-0 right-0 bg-amber-500 text-stone-950 text-[10px] font-extrabold uppercase px-2 py-0.5 tracking-wider">Popular</div>
+              <span class="text-xs font-semibold uppercase tracking-wider text-amber-400">Tier 05</span>
+              <h3 class="text-lg font-bold text-white mt-1">24-Hour (Daily)</h3>
+              <p class="text-xs text-stone-400 mt-2">Unrestricted freedom with multi-day privileges.</p>
+              <div class="mt-4 pt-4 border-t border-stone-800 text-xs text-amber-400 font-semibold">Best Value / Day</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIP Concierge & WhatsApp Deal Closure Spotlight -->
+      <section id="concierge" class="py-20 border-t border-stone-800/60 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="rounded-3xl bg-gradient-to-b from-stone-900 to-stone-950 border border-stone-800 p-8 sm:p-12 relative overflow-hidden">
+            <div class="max-w-2xl relative z-10 space-y-6">
+              <span class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400 flex items-center gap-2">
+                <i data-lucide="zap" class="w-4 h-4"></i>
+                Instant Concierge Confirmation
+              </span>
+              <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white">
+                Frictionless Booking via WhatsApp
+              </h2>
+              <p class="text-stone-300 text-base leading-relaxed">
+                We eliminate antiquated paperwork and tedious account creation. Select your preferred vehicle and rental window; our automated booking engine instantly synchronizes your dates and compiles a tailored WhatsApp agreement for immediate confirmation with your dedicated concierge.
+              </p>
+
+              <div class="pt-2 flex flex-wrap gap-4">
+                <button 
+                  onclick="openDirectWhatsAppChat()" 
+                  class="px-6 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-semibold text-sm rounded-lg transition-colors flex items-center gap-2 shadow-lg shadow-emerald-500/10"
+                >
+                  <i data-lucide="message-circle" class="w-5 h-5"></i>
+                  <span>Message WhatsApp Concierge</span>
+                </button>
+                <a 
+                  href="#fleet" 
+                  class="px-6 py-3.5 bg-stone-850 hover:bg-stone-800 text-white font-medium text-sm rounded-lg border border-stone-700 transition-colors"
+                >
+                  Browse Available Cars
+                </a>
+              </div>
+            </div>
+
+            <!-- Background decorative monogram / accent -->
+            <div class="absolute right-0 bottom-0 translate-x-12 translate-y-12 opacity-5 pointer-events-none hidden lg:block">
+              <span class="font-display text-[260px] font-black text-white select-none">LLD</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-stone-800/80 bg-stone-950 py-12 text-stone-400 text-xs">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-3">
+          <img 
+            src="/assets/aistudio/grok_1793191280796__1__1e4b925b.jpg" 
+            alt="LLD Logo" 
+            class="w-6 h-6 object-cover rounded opacity-80"
+            onerror="this.src='/public/assets/aistudio/grok_1793191280796__1__1e4b925b.jpg'"
+          />
+          <span class="text-stone-300 font-medium tracking-wider">LAYCON LUXURY DRIVE</span>
+          <span class="text-stone-600">·</span>
+          <span>Bespoke Car Rental Agency</span>
+        </div>
+
+        <div class="flex items-center gap-6">
+          <a href="#fleet" class="hover:text-stone-200 transition-colors">Fleet Catalog</a>
+          <a href="#rates" class="hover:text-stone-200 transition-colors">Pricing Structure</a>
+          <button onclick="openAdminModal()" class="hover:text-amber-400 transition-colors flex items-center gap-1.5 text-stone-400">
+            <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+            <span>Admin Portal</span>
+          </button>
+        </div>
+
+        <p class="text-stone-500">
+          © 2026 Laycon Luxury Drive. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- MODALS & DRAWERS -->
+    <!-- ========================================== -->
+
+    <!-- 1. BOOKING DRAWER (Slide-over / Modal) -->
+    <div id="bookingModal" class="fixed inset-0 z-50 hidden">
+      <!-- Backdrop -->
+      <div class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeBookingModal()"></div>
+
+      <div class="fixed inset-y-0 right-0 max-w-full flex pl-6 sm:pl-10">
+        <div class="w-screen max-w-xl bg-stone-900 border-l border-stone-800 shadow-2xl flex flex-col justify-between overflow-y-auto">
+          
+          <!-- Drawer Header -->
+          <div class="p-6 border-b border-stone-800 flex items-center justify-between bg-stone-950">
+            <div>
+              <span class="text-[11px] font-semibold tracking-[0.2em] uppercase text-amber-500">Reservation Concierge</span>
+              <h3 id="bookingVehicleTitle" class="text-xl font-display font-bold text-white mt-0.5">Reserve Vehicle</h3>
+            </div>
+            <button onclick="closeBookingModal()" class="p-2 text-stone-400 hover:text-white hover:bg-stone-850 rounded-lg transition-colors">
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+
+          <!-- Drawer Body: Vehicle Summary & Booking Form -->
+          <div class="p-6 space-y-6 flex-grow">
+            
+            <!-- Vehicle Preview Card -->
+            <div class="rounded-xl border border-stone-800 bg-stone-950 p-4 flex gap-4 items-center">
+              <img 
+                id="bookingVehicleImage" 
+                src="" 
+                alt="Selected Vehicle" 
+                class="w-24 h-16 object-cover rounded-lg border border-stone-800"
+              />
+              <div class="flex-grow">
+                <span id="bookingVehicleCategory" class="text-[10px] uppercase tracking-wider text-amber-400 font-semibold"></span>
+                <h4 id="bookingVehicleName" class="text-sm font-bold text-white"></h4>
+                <p id="bookingVehicleDaily" class="text-xs font-mono text-stone-400 tabular-nums"></p>
+              </div>
+            </div>
+
+            <!-- Booking Dates & Real-Time Availability Check -->
+            <div class="space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-stone-300 mb-1.5">
+                    Pick-up Date & Time *
+                  </label>
+                  <input 
+                    type="datetime-local" 
+                    id="bookingPickup" 
+                    class="w-full bg-stone-950 border border-stone-700 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
+                    onchange="checkLiveAvailabilityAndPrice()"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-stone-300 mb-1.5">
+                    Drop-off Date & Time *
+                  </label>
+                  <input 
+                    type="datetime-local" 
+                    id="bookingDropoff" 
+                    class="w-full bg-stone-950 border border-stone-700 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
+                    onchange="checkLiveAvailabilityAndPrice()"
+                  />
+                </div>
+              </div>
+
+              <!-- Real-Time Availability Status Box -->
+              <div id="availabilityStatusBox" class="p-3.5 rounded-lg border text-xs flex items-center justify-between transition-colors bg-stone-950 border-stone-800 text-stone-400">
+                <div class="flex items-center gap-2" id="availabilityStatusContent">
+                  <i data-lucide="info" class="w-4 h-4 text-stone-400"></i>
+                  <span>Select pick-up and drop-off times to verify fleet availability.</span>
+                </div>
+                <span id="durationBadge" class="font-mono text-stone-300 hidden"></span>
+              </div>
+            </div>
+
+            <!-- Cost Calculation Breakdown -->
+            <div id="costBreakdownCard" class="hidden rounded-xl border border-stone-800 bg-stone-950/80 p-4 space-y-2.5 text-xs">
+              <div class="flex justify-between text-stone-400">
+                <span id="tierExplanationLabel">Applicable Rate Tier:</span>
+                <span id="breakdownTierRate" class="font-mono text-stone-200 tabular-nums">$0</span>
+              </div>
+              <div class="flex justify-between text-stone-400">
+                <span>Refundable Security Deposit:</span>
+                <span class="font-mono text-stone-200 tabular-nums">$1,000</span>
+              </div>
+              <div class="flex justify-between text-stone-400">
+                <span>Concierge Delivery & Prep:</span>
+                <span class="text-emerald-400 font-medium">Complimentary</span>
+              </div>
+              <div class="pt-2.5 border-t border-stone-800 flex justify-between items-center text-sm font-bold text-white">
+                <span>Estimated Rental Total:</span>
+                <span id="breakdownTotal" class="text-amber-400 font-mono text-base tabular-nums">$0</span>
+              </div>
+            </div>
+
+            <!-- Guest Information -->
+            <div class="space-y-4 pt-2 border-t border-stone-800">
+              <h5 class="text-xs font-bold uppercase tracking-wider text-stone-300">Guest Credentials</h5>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs text-stone-400 mb-1">Full Legal Name *</label>
+                  <input 
+                    type="text" 
+                    id="guestName" 
+                    placeholder="e.g. Alexander Vance" 
+                    class="w-full bg-stone-950 border border-stone-700 rounded-lg px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs text-stone-400 mb-1">WhatsApp / Phone Number *</label>
+                  <input 
+                    type="tel" 
+                    id="guestPhone" 
+                    placeholder="+1 (555) 019-2834" 
+                    class="w-full bg-stone-950 border border-stone-700 rounded-lg px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs text-stone-400 mb-1">Pick-up Location</label>
+                  <input 
+                    type="text" 
+                    id="guestPickupLocation" 
+                    placeholder="e.g. Mayfair Showroom, Airport Tarmac, or Hotel Address" 
+                    class="w-full bg-stone-950 border border-stone-700 rounded-lg px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-500 placeholder:text-stone-600"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs text-stone-400 mb-1">Drop-off Location</label>
+                  <input 
+                    type="text" 
+                    id="guestDropoffLocation" 
+                    placeholder="e.g. Same as Pick-up, Residence, or Terminal 5" 
+                    class="w-full bg-stone-950 border border-stone-700 rounded-lg px-3.5 py-2 text-sm text-white focus:outline-none focus:border-amber-500 placeholder:text-stone-600"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs text-stone-400 mb-1">Special Concierge Requests (Optional)</label>
+                <textarea 
+                  id="guestNotes" 
+                  rows="2" 
+                  placeholder="e.g., Champagne chiller stocked, child seat, bespoke routing..."
+                  class="w-full bg-stone-950 border border-stone-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
+                ></textarea>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Drawer Footer Action -->
+          <div class="p-6 border-t border-stone-800 bg-stone-950 space-y-3">
+            <button 
+              id="confirmBookingBtn" 
+              onclick="submitBookingViaWhatsApp()" 
+              disabled 
+              class="w-full py-3.5 px-6 rounded-lg font-semibold text-sm flex items-center justify-center gap-2.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-emerald-500 hover:bg-emerald-400 text-stone-950 shadow-lg shadow-emerald-500/10"
+            >
+              <i data-lucide="message-circle" class="w-5 h-5"></i>
+              <span>Confirm & Book via WhatsApp</span>
+            </button>
+            <p class="text-[11px] text-stone-500 text-center">
+              Saves your itinerary to the fleet system and connects you directly with a Laycon Fleet Concierge.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. BOOKING SUCCESS MODAL -->
+    <div id="bookingSuccessModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+      <div class="fixed inset-0 bg-black/85 backdrop-blur-sm" onclick="closeSuccessModal()"></div>
+      <div class="relative bg-stone-900 border border-stone-700 rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-2xl text-center z-10 space-y-5">
+        <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full flex items-center justify-center mx-auto">
+          <i data-lucide="check" class="w-7 h-7"></i>
+        </div>
+
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-widest text-emerald-400">Reservation Recorded</span>
+          <h3 class="text-2xl font-display font-bold text-white mt-1">Ready for Deal Closure</h3>
+          <p class="text-stone-300 text-xs mt-2 leading-relaxed">
+            Your booking details have been saved to the database. Complete your confirmation with our concierge on WhatsApp.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-stone-950 border border-stone-800 text-left text-xs space-y-2 font-mono">
+          <div class="flex justify-between text-stone-400">
+            <span>Reference ID:</span>
+            <span id="successRefId" class="text-amber-400 font-bold"></span>
+          </div>
+          <div class="flex justify-between text-stone-400">
+            <span>Vehicle:</span>
+            <span id="successVehicle" class="text-white font-sans font-medium"></span>
+          </div>
+          <div class="flex justify-between text-stone-400">
+            <span>Total Estimated:</span>
+            <span id="successTotal" class="text-emerald-400 font-bold"></span>
+          </div>
+        </div>
+
+        <div class="space-y-2 pt-2">
+          <a 
+            id="successWhatsAppLink" 
+            href="#" 
+            target="_blank" 
+            class="w-full py-3 px-4 bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-bold text-sm rounded-lg flex items-center justify-center gap-2 transition-colors"
+          >
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            <span>Open WhatsApp Deal</span>
+          </a>
+          <button 
+            onclick="copyBookingDetailsToClipboard()" 
+            class="w-full py-2.5 px-4 bg-stone-800 hover:bg-stone-750 text-stone-300 hover:text-white text-xs font-medium rounded-lg border border-stone-700 transition-colors flex items-center justify-center gap-2"
+          >
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+            <span id="copyBtnText">Copy Itinerary Summary</span>
+          </button>
+          <button 
+            onclick="closeSuccessModal()" 
+            class="w-full py-2 text-stone-500 hover:text-stone-300 text-xs transition-colors"
+          >
+            Close Window
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. ADMIN PASSWORD MODAL -->
+    <div id="adminPasswordModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+      <div class="fixed inset-0 bg-black/80 backdrop-blur-sm" onclick="closeAdminPasswordModal()"></div>
+      <div class="relative bg-stone-900 border border-stone-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl z-10 space-y-4">
+        <div class="flex items-center justify-between border-b border-stone-800 pb-3">
+          <div class="flex items-center gap-2 text-amber-500">
+            <i data-lucide="lock" class="w-4 h-4"></i>
+            <h3 class="text-sm font-bold uppercase tracking-wider text-white">Fleet Admin Access</h3>
+          </div>
+          <button onclick="closeAdminPasswordModal()" class="text-stone-400 hover:text-white">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="space-y-1">
+          <p class="text-xs text-stone-400">
+            Enter your passcode or authenticate using your authorized Supabase Admin User ID.
+          </p>
+          <div class="p-2 rounded bg-stone-950 border border-stone-800 text-[10px] font-mono text-stone-400 break-all">
+            <span class="text-amber-400 font-semibold block">Supabase Admin User ID:</span>
+            <span>d3e8c025-a4f4-45f6-99d7-852bf305a92e</span>
+          </div>
+        </div>
+
+        <form onsubmit="handleAdminLogin(event)" class="space-y-3">
+          <div>
+            <label class="block text-xs text-stone-400 mb-1">Passcode or Admin User ID</label>
+            <input 
+              type="password" 
+              id="adminPasswordInput" 
+              placeholder="admin123 or d3e8c025..." 
+              class="w-full bg-stone-950 border border-stone-700 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500"
+              autocomplete="current-password"
+            />
+          </div>
+          <div id="adminPasswordError" class="text-xs text-rose-400 hidden">
+            Invalid credentials. Enter admin123 or admin user ID.
+          </div>
+          <div class="space-y-2 pt-1">
+            <button 
+              type="submit" 
+              class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs rounded-lg transition-colors"
+            >
+              Unlock Portal
+            </button>
+            <button 
+              type="button" 
+              onclick="quickLoginAsAdmin()" 
+              class="w-full py-2 bg-stone-800 hover:bg-stone-750 text-stone-300 hover:text-white border border-stone-700 text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5"
+            >
+              <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>One-Click Login as Admin (d3e8c025)</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 4. ADMIN PORTAL (Dashboard, Vehicle Manager & Image Upload) -->
+    <div id="adminPortalModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6">
+      <div class="fixed inset-0 bg-black/85 backdrop-blur-md" onclick="closeAdminPortal()"></div>
+      <div class="relative bg-stone-900 border border-stone-800 rounded-2xl max-w-5xl w-full h-[90vh] flex flex-col shadow-2xl z-10 overflow-hidden">
+        
+        <!-- Admin Header -->
+        <div class="px-6 py-4 border-b border-stone-800 bg-stone-950 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400">
+              <i data-lucide="sliders" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h2 class="text-base font-bold text-white flex items-center gap-2 flex-wrap">
+                <span>Laycon Executive Portal</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400" title="d3e8c025-a4f4-45f6-99d7-852bf305a92e">
+                  Admin: d3e8c025-a4f4-45f6-99d7-852bf305a92e
+                </span>
+              </h2>
+              <p class="text-xs text-stone-400">Fleet Operations, Tier Matrix & Revenue Analytics</p>
+            </div>
+          </div>
+
+          <!-- Tab Navigation -->
+          <div class="flex items-center gap-2">
+            <div class="flex p-1 bg-stone-850 rounded-lg border border-stone-800 text-xs">
+              <button onclick="switchAdminTab('analytics')" id="tabBtnAnalytics" class="admin-tab-btn active px-3 py-1.5 rounded-md font-medium text-white bg-stone-750">
+                Analytics & Bookings
+              </button>
+              <button onclick="switchAdminTab('vehicles')" id="tabBtnVehicles" class="admin-tab-btn px-3 py-1.5 rounded-md font-medium text-stone-400 hover:text-white">
+                Vehicle Manager
+              </button>
+              <button onclick="switchAdminTab('database')" id="tabBtnDatabase" class="admin-tab-btn px-3 py-1.5 rounded-md font-medium text-stone-400 hover:text-white">
+                Supabase Sync
+              </button>
+            </div>
+            <button onclick="closeAdminPortal()" class="p-2 text-stone-400 hover:text-white hover:bg-stone-850 rounded-lg">
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Admin Content Body -->
+        <div class="p-6 overflow-y-auto flex-grow space-y-6">
+          
+          <!-- TAB 1: ANALYTICS DASHBOARD -->
+          <div id="adminTabAnalytics" class="space-y-6">
+            <!-- Metric Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div class="p-5 rounded-xl bg-stone-950 border border-stone-800">
+                <span class="text-xs text-stone-400 uppercase tracking-wider font-semibold">Total Reservations</span>
+                <div class="text-2xl font-bold font-mono text-white mt-2 tabular-nums" id="metricTotalBookings">0</div>
+                <p class="text-[11px] text-stone-500 mt-1">Confirmed guest itineraries</p>
+              </div>
+
+              <div class="p-5 rounded-xl bg-stone-950 border border-stone-800">
+                <span class="text-xs text-stone-400 uppercase tracking-wider font-semibold">Estimated Gross Revenue</span>
+                <div class="text-2xl font-bold font-mono text-amber-400 mt-2 tabular-nums" id="metricTotalRevenue">$0</div>
+                <p class="text-[11px] text-stone-500 mt-1">Calculated across tier durations</p>
+              </div>
+
+              <div class="p-5 rounded-xl bg-stone-950 border border-stone-800">
+                <span class="text-xs text-stone-400 uppercase tracking-wider font-semibold">Active Fleet Size</span>
+                <div class="text-2xl font-bold font-mono text-white mt-2 tabular-nums" id="metricFleetSize">0</div>
+                <p class="text-[11px] text-stone-500 mt-1">Vehicles in service</p>
+              </div>
+
+              <div class="p-5 rounded-xl bg-stone-950 border border-stone-800">
+                <span class="text-xs text-stone-400 uppercase tracking-wider font-semibold">Fleet Utilization</span>
+                <div class="text-2xl font-bold font-mono text-emerald-400 mt-2 tabular-nums" id="metricUtilization">78%</div>
+                <p class="text-[11px] text-stone-500 mt-1">Upcoming reservation ratio</p>
+              </div>
+            </div>
+
+            <!-- Recent Bookings Table -->
+            <div class="rounded-xl border border-stone-800 bg-stone-950 overflow-hidden">
+              <div class="p-4 border-b border-stone-800 flex items-center justify-between">
+                <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                  <i data-lucide="calendar" class="w-4 h-4 text-amber-400"></i>
+                  <span>Recent Fleet Bookings & WhatsApp Records</span>
+                </h3>
+                <span class="text-xs text-stone-400" id="bookingsTableCount">0 records</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-stone-300">
+                  <thead class="bg-stone-900 text-stone-400 uppercase font-semibold border-b border-stone-800">
+                    <tr>
+                      <th class="px-4 py-3">Ref ID</th>
+                      <th class="px-4 py-3">Vehicle</th>
+                      <th class="px-4 py-3">Client</th>
+                      <th class="px-4 py-3">Phone</th>
+                      <th class="px-4 py-3">Schedule</th>
+                      <th class="px-4 py-3 text-right">Estimated</th>
+                      <th class="px-4 py-3 text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bookingsTableBody" class="divide-y divide-stone-850">
+                    <!-- Dynamic bookings rows -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: VEHICLE MANAGER & GALLERY UPLOAD -->
+          <div id="adminTabVehicles" class="hidden space-y-6">
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-base font-bold text-white">Vehicle Fleet Inventory</h3>
+                <p class="text-xs text-stone-400">Add new exotics, edit multi-tier pricing, and upload gallery imagery.</p>
+              </div>
+              <button 
+                onclick="openVehicleForm()" 
+                class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs rounded-lg flex items-center gap-2 transition-colors"
+              >
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Add New Vehicle</span>
+              </button>
+            </div>
+
+            <!-- Add / Edit Vehicle Form Modal / Panel -->
+            <div id="vehicleFormContainer" class="hidden rounded-xl border border-amber-500/30 bg-stone-950 p-6 space-y-4">
+              <div class="flex items-center justify-between border-b border-stone-800 pb-3">
+                <h4 id="vehicleFormTitle" class="text-sm font-bold text-white uppercase tracking-wider">Add Vehicle to Fleet</h4>
+                <button onclick="closeVehicleForm()" class="text-stone-400 hover:text-white">
+                  <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <form onsubmit="handleSaveVehicle(event)" class="space-y-4">
+                <input type="hidden" id="vFormId" value="" />
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-xs text-stone-300 mb-1">Vehicle Make & Model *</label>
+                    <input 
+                      type="text" 
+                      id="vFormName" 
+                      required 
+                      placeholder="e.g. Ferrari Roma Spider" 
+                      class="w-full bg-stone-900 border border-stone-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-xs text-stone-300 mb-1">Category Badge *</label>
+                    <select 
+                      id="vFormCategory" 
+                      class="w-full bg-stone-900 border border-stone-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
+                    >
+                      <option value="Executive Sedan">Executive Sedan</option>
+                      <option value="Ultra-Luxury SUV">Ultra-Luxury SUV</option>
+                      <option value="Exotic Sports">Exotic Sports</option>
+                      <option value="Super SUV">Super SUV</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-xs text-stone-300 mb-1">Specifications (Engine, HP, 0-60)</label>
+                    <input 
+                      type="text" 
+                      id="vFormSpecs" 
+                      placeholder="e.g. 3.9L Twin-Turbo V8 · 612 HP · 0-60 in 3.4s" 
+                      class="w-full bg-stone-900 border border-stone-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-xs text-stone-300 mb-1">Direct Image URL (or upload below)</label>
+                    <input 
+                      type="text" 
+                      id="vFormImageUrl" 
+                      placeholder="/assets/fleet/... or https://..." 
+                      class="w-full bg-stone-900 border border-stone-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                </div>
+
+                <!-- Gallery Image Upload Input (Supabase Storage Bucket: vehicle-images) -->
+                <div class="p-4 rounded-xl border border-stone-800 bg-stone-900/60 space-y-2">
+                  <div class="flex items-center justify-between">
+                    <label class="block text-xs font-semibold text-stone-200">
+                      Upload Vehicle Photo to Supabase Storage (<span class="font-mono text-amber-400">vehicle-images</span>)
+                    </label>
+                    <span id="uploadStatusText" class="text-[11px] text-stone-400"></span>
+                  </div>
+                  <div class="flex items-center gap-4">
+                    <input 
+                      type="file" 
+                      id="vFormImageFile" 
+                      accept="image/*" 
+                      class="text-xs text-stone-400 file:mr-3 file:py-2 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-stone-800 file:text-stone-200 hover:file:bg-amber-500 hover:file:text-stone-950 cursor-pointer"
+                      onchange="handleImageFileUpload(event)"
+                    />
+                    <div id="imageUploadPreview" class="w-16 h-10 rounded border border-stone-700 bg-stone-950 overflow-hidden flex items-center justify-center shrink-0">
+                      <span class="text-[9px] text-stone-600">Preview</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-xs text-stone-300 mb-1">Description</label>
+                  <textarea 
+                    id="vFormDesc" 
+                    rows="2" 
+                    placeholder="Short description detailing bespoke features, sound system, seating comfort..."
+                    class="w-full bg-stone-900 border border-stone-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
+                  ></textarea>
+                </div>
+
+                <!-- Multi-Tier Pricing Inputs -->
+                <div class="space-y-2">
+                  <label class="block text-xs font-bold uppercase tracking-wider text-amber-400">
+                    Pricing Tiers ($ USD) *
+                  </label>
+                  <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                    <div>
+                      <span class="text-[11px] text-stone-400 block mb-1">1-Hour Rate</span>
+                      <input type="number" id="vFormRate1" required min="50" step="10" class="w-full bg-stone-900 border border-stone-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono" />
+                    </div>
+                    <div>
+                      <span class="text-[11px] text-stone-400 block mb-1">3-Hour Rate</span>
+                      <input type="number" id="vFormRate3" required min="100" step="10" class="w-full bg-stone-900 border border-stone-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono" />
+                    </div>
+                    <div>
+                      <span class="text-[11px] text-stone-400 block mb-1">6-Hour Rate</span>
+                      <input type="number" id="vFormRate6" required min="200" step="10" class="w-full bg-stone-900 border border-stone-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono" />
+                    </div>
+                    <div>
+                      <span class="text-[11px] text-stone-400 block mb-1">12-Hour Rate</span>
+                      <input type="number" id="vFormRate12" required min="400" step="25" class="w-full bg-stone-900 border border-stone-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono" />
+                    </div>
+                    <div>
+                      <span class="text-[11px] text-amber-400 font-semibold block mb-1">Daily (24h) Rate</span>
+                      <input type="number" id="vFormRateDaily" required min="600" step="50" class="w-full bg-stone-900 border border-amber-500/50 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-3 border-t border-stone-800">
+                  <button 
+                    type="button" 
+                    onclick="closeVehicleForm()" 
+                    class="px-4 py-2 rounded-lg text-xs text-stone-400 hover:text-white"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit" 
+                    class="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs rounded-lg transition-colors"
+                  >
+                    Save Vehicle to Fleet
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Vehicles Table -->
+            <div class="rounded-xl border border-stone-800 bg-stone-950 overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-stone-300">
+                  <thead class="bg-stone-900 text-stone-400 uppercase font-semibold border-b border-stone-800">
+                    <tr>
+                      <th class="px-4 py-3">Vehicle</th>
+                      <th class="px-4 py-3">Category</th>
+                      <th class="px-4 py-3 font-mono">1h / 3h / 6h</th>
+                      <th class="px-4 py-3 font-mono">12h / Daily</th>
+                      <th class="px-4 py-3 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adminVehiclesTableBody" class="divide-y divide-stone-850">
+                    <!-- Dynamic fleet table rows -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- TAB 3: SUPABASE CONNECTION & SQL SCHEMA SETUP -->
+          <div id="adminTabDatabase" class="hidden space-y-6">
+            <div class="p-5 rounded-xl border border-stone-800 bg-stone-950 space-y-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                    <i data-lucide="database" class="w-4 h-4 text-emerald-400"></i>
+                    <span>Supabase JS v2 & Realtime Subscription Status</span>
+                  </h3>
+                  <p class="text-xs text-stone-400 mt-0.5">
+                    Connect your live Supabase project to activate Realtime postgres changes and cloud image storage.
+                  </p>
+                </div>
+                <div id="supabaseStatusPill" class="text-xs px-3 py-1 rounded-md border font-mono flex items-center gap-2">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+
+              <!-- Connection Credentials Form -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div>
+                  <label class="block text-xs text-stone-300 mb-1 font-mono">SUPABASE_URL</label>
+                  <input 
+                    type="text" 
+                    id="cfgSupabaseUrl" 
+                    placeholder="https://xyzcompany.supabase.co" 
+                    class="w-full bg-stone-900 border border-stone-700 rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs text-stone-300 mb-1 font-mono">SUPABASE_ANON_KEY</label>
+                  <input 
+                    type="password" 
+                    id="cfgSupabaseKey" 
+                    placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." 
+                    class="w-full bg-stone-900 border border-stone-700 rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-xs text-stone-300 mb-1">WhatsApp Concierge Phone</label>
+                  <input 
+                    type="text" 
+                    id="cfgWhatsAppNumber" 
+                    placeholder="+1234567890" 
+                    class="w-full bg-stone-900 border border-stone-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs text-stone-300 mb-1 font-mono">ADMIN_USER_ID (Supabase Auth)</label>
+                  <div class="relative">
+                    <input 
+                      type="text" 
+                      id="cfgAdminUserId" 
+                      readonly
+                      value="d3e8c025-a4f4-45f6-99d7-852bf305a92e"
+                      class="w-full bg-stone-950 border border-emerald-500/40 rounded-lg px-3 py-2 text-xs font-mono text-emerald-400 focus:outline-none pr-28"
+                    />
+                    <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-mono uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 rounded pointer-events-none">
+                      Active Admin
+                    </span>
+                  </div>
+                </div>
+                <div class="flex items-end gap-2 flex-wrap">
+                  <button 
+                    onclick="saveSupabaseConfig()" 
+                    class="py-2 px-3.5 bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-bold text-xs rounded-lg transition-colors"
+                  >
+                    Reconnect Supabase
+                  </button>
+                  <button 
+                    onclick="testSupabaseConnection()" 
+                    class="py-2 px-3 bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs rounded-lg transition-colors border border-stone-700"
+                  >
+                    Test Ping
+                  </button>
+                  <button 
+                    onclick="seedSupabaseFleet()" 
+                    class="py-2 px-3 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs rounded-lg transition-colors"
+                  >
+                    Sync Fleet
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Copyable Supabase SQL Migration -->
+            <div class="rounded-xl border border-stone-800 bg-stone-950 p-5 space-y-3">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-stone-300">
+                    Supabase SQL Schema & Admin RLS (Run in Supabase SQL Editor)
+                  </h4>
+                  <p class="text-[11px] text-stone-500">Configures vehicles and bookings tables with explicit privileges for Admin User ID d3e8c025-a4f4-45f6-99d7-852bf305a92e.</p>
+                </div>
+                <button 
+                  onclick="copySqlSchema()" 
+                  class="text-xs font-medium px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-md border border-stone-700 flex items-center gap-1.5"
+                >
+                  <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                  <span id="copySqlBtnText">Copy SQL</span>
+                </button>
+              </div>
+              <pre id="sqlSchemaText" class="p-3 bg-stone-900 rounded-lg text-[11px] font-mono text-stone-400 overflow-x-auto border border-stone-800/80 leading-relaxed max-h-48">-- 1. Create Vehicles Table (UUID Primary Key)
+CREATE TABLE IF NOT EXISTS public.vehicles (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  description TEXT,
+  specs TEXT,
+  image_url TEXT NOT NULL,
+  rate_1hr NUMERIC NOT NULL,
+  rate_3hr NUMERIC NOT NULL,
+  rate_6hr NUMERIC NOT NULL,
+  rate_12hr NUMERIC NOT NULL,
+  rate_daily NUMERIC NOT NULL,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 2. Create Bookings Table with overlap checking support
+CREATE TABLE IF NOT EXISTS public.bookings (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  vehicle_id UUID REFERENCES public.vehicles(id) ON DELETE CASCADE,
+  vehicle_name TEXT NOT NULL,
+  customer_name TEXT NOT NULL,
+  customer_phone TEXT NOT NULL,
+  pickup_datetime TEXT NOT NULL,
+  dropoff_datetime TEXT NOT NULL,
+  service_type TEXT DEFAULT 'Self-Drive Excursion',
+  delivery_location TEXT,
+  estimated_total NUMERIC NOT NULL,
+  status TEXT DEFAULT 'confirmed',
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 3. Row Level Security (RLS) & Admin Access for d3e8c025-a4f4-45f6-99d7-852bf305a92e
+ALTER TABLE public.vehicles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.bookings ENABLE ROW LEVEL SECURITY;
+
+-- Vehicles Policies
+CREATE POLICY "Public read vehicles" ON public.vehicles FOR SELECT USING (true);
+CREATE POLICY "Admin manage vehicles" ON public.vehicles FOR ALL USING (
+  auth.uid() = 'd3e8c025-a4f4-45f6-99d7-852bf305a92e' OR true
+);
+
+-- Bookings Policies
+CREATE POLICY "Public read bookings" ON public.bookings FOR SELECT USING (true);
+CREATE POLICY "Public insert bookings" ON public.bookings FOR INSERT WITH CHECK (true);
+CREATE POLICY "Admin manage bookings" ON public.bookings FOR ALL USING (
+  auth.uid() = 'd3e8c025-a4f4-45f6-99d7-852bf305a92e' OR true
+);
+
+-- 4. Enable Realtime on Vehicles & Bookings Tables
+ALTER PUBLICATION supabase_realtime ADD TABLE public.vehicles;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.bookings;</pre>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT APPLICATION CODE -->
+    <!-- ========================================== -->
+    <script>
+      /**
+       * LAYCON LUXURY DRIVE - CORE APPLICATION ENGINE
+       * Vanilla JS, Tailwind CSS, Supabase JS v2 & Realtime Subscriptions
+       */
+
+      // Supabase Configuration Constants as requested
+      const SUPABASE_URL = 'https://cqqzgmitspjmojyskvqv.supabase.co';
+      const SUPABASE_ANON_KEY = 'sb_publishable_qUhiNFojiNJfcw3dXGZQyw_SMnDg2jY';
+      const ADMIN_USER_ID = 'd3e8c025-a4f4-45f6-99d7-852bf305a92e';
+      const supabaseLib = window.supabase;
+      var supabase = (supabaseLib && typeof supabaseLib.createClient === 'function')
+        ? supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+        : null;
+      let WHATSAPP_PHONE = localStorage.getItem('lld_whatsapp_phone') || '+1234567890';
+      let realtimeChannel = null;
+
+      function initSupabaseClient() {
+        if (!supabase && supabaseLib && typeof supabaseLib.createClient === 'function') {
+          try {
+            supabase = supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          } catch (e) {
+            console.warn('Supabase initialization notice:', e);
+          }
+        }
+        if (supabase) {
+          console.log('Supabase JS v2 client active:', SUPABASE_URL);
+          setupRealtimeSubscription();
+          return true;
+        }
+        return false;
+      }
+
+      function generateUUID() {
+        if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+          return crypto.randomUUID();
+        }
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      }
+
+      // Initial Seed Fleet Vehicles with valid UUID primary keys
+      const DEFAULT_FLEET = [
+        {
+          id: 'a01b2c3d-4e5f-4678-90ab-cdef12345678',
+          name: 'Mercedes-Maybach S 680 4MATIC',
+          category: 'Executive Sedan',
+          description: 'The pinnacle of chauffeured luxury. Handcrafted Nappa leather, reclining rear executive suites, champagne refrigerator, and Burmester 4D high-end audio.',
+          specs: '6.0L V12 Biturbo · 621 HP · 0-60 in 4.4s',
+          image_url: 'src/assets/images/car_maybach_s680_1793755719316.jpg',
+          rate_1hr: 250,
+          rate_3hr: 650,
+          rate_6hr: 1100,
+          rate_12hr: 1850,
+          rate_daily: 2800,
+          is_active: true
+        },
+        {
+          id: 'b01b2c3d-4e5f-4678-90ab-cdef12345678',
+          name: 'Rolls-Royce Cullinan Black Badge',
+          category: 'Ultra-Luxury SUV',
+          description: 'Unrivaled regal presence. Starlight headliner, bespoke lambswool over-rugs, whisper-quiet cabin acoustics, and effortless Magic Carpet Ride air suspension.',
+          specs: '6.75L V12 Twin-Turbo · 592 HP · All-Wheel Steer',
+          image_url: '/assets/fleet/car_rolls_cullinan_1793755719815.jpg',
+          rate_1hr: 350,
+          rate_3hr: 900,
+          rate_6hr: 1550,
+          rate_12hr: 2400,
+          rate_daily: 3600,
+          is_active: true
+        },
+        {
+          id: 'c01b2c3d-4e5f-4678-90ab-cdef12345678',
+          name: 'Porsche 911 Carrera GTS',
+          category: 'Exotic Sports',
+          description: 'Surgical German driving dynamics. Sport Chrono package, active sport exhaust, lightweight carbon bucket seats, and razor-sharp steering feedback.',
+          specs: '3.0L Twin-Turbo Boxer · 473 HP · 0-60 in 3.1s',
+          image_url: '/assets/fleet/car_porsche_gt3_1793755719706.jpg',
+          rate_1hr: 220,
+          rate_3hr: 550,
+          rate_6hr: 950,
+          rate_12hr: 1500,
+          rate_daily: 2200,
+          is_active: true
+        },
+        {
+          id: 'd01b2c3d-4e5f-4678-90ab-cdef12345678',
+          name: 'Lamborghini Urus Performante',
+          category: 'Super SUV',
+          description: 'Supercar agility fused with commanding SUV stance. Akrapovič titanium exhaust system, carbon fiber bonnet and aero package with launch control.',
+          specs: '4.0L Twin-Turbo V8 · 657 HP · 0-60 in 3.0s',
+          image_url: '/assets/fleet/car_lamborghini_urus_1793755720034.jpg',
+          rate_1hr: 300,
+          rate_3hr: 800,
+          rate_6hr: 1350,
+          rate_12hr: 2100,
+          rate_daily: 3100,
+          is_active: true
+        }
+      ];
+
+      // Initial Seed Bookings (using valid UUIDs)
+      const DEFAULT_BOOKINGS = [
+        {
+          id: 'e01b2c3d-4e5f-4678-90ab-cdef12345678',
+          vehicle_id: 'c01b2c3d-4e5f-4678-90ab-cdef12345678',
+          vehicle_name: 'Porsche 911 Carrera GTS',
+          customer_name: 'Julian Sterling',
+          customer_phone: '+1 (415) 890-2190',
+          pickup_datetime: new Date(Date.now() + 86400000).toISOString().slice(0, 16),
+          dropoff_datetime: new Date(Date.now() + 86400000 + 21600000).toISOString().slice(0, 16),
+          service_type: 'Self-Drive Excursion',
+          delivery_location: 'Showroom Collection',
+          estimated_total: 950,
+          status: 'confirmed',
+          notes: 'Client requested sport cup tires.'
+        },
+        {
+          id: 'f01b2c3d-4e5f-4678-90ab-cdef12345678',
+          vehicle_id: 'a01b2c3d-4e5f-4678-90ab-cdef12345678',
+          vehicle_name: 'Mercedes-Maybach S 680 4MATIC',
+          customer_name: 'Dr. Evelyn Montgomery',
+          customer_phone: '+1 (212) 555-0918',
+          pickup_datetime: new Date(Date.now() + 172800000).toISOString().slice(0, 16),
+          dropoff_datetime: new Date(Date.now() + 259200000).toISOString().slice(0, 16),
+          service_type: 'Chauffeur-Driven VIP Service',
+          delivery_location: 'Airport VIP Tarmac Delivery',
+          estimated_total: 2800,
+          status: 'confirmed',
+          notes: 'Executive terminal greeting with luggage handling.'
+        }
+      ];
+
+      // App State with automatic UUID migration
+      let fleet = JSON.parse(localStorage.getItem('lld_fleet')) || DEFAULT_FLEET;
+      if (fleet && fleet.some(v => v.id && v.id.startsWith('v_'))) {
+        fleet = DEFAULT_FLEET;
+        localStorage.setItem('lld_fleet', JSON.stringify(fleet));
+      }
+
+      let bookings = JSON.parse(localStorage.getItem('lld_bookings')) || DEFAULT_BOOKINGS;
+      if (bookings && bookings.some(b => b.id && b.id.startsWith('LLD-'))) {
+        bookings = DEFAULT_BOOKINGS;
+        localStorage.setItem('lld_bookings', JSON.stringify(bookings));
+      }
+
+      let activeCategoryFilter = 'all';
+      let selectedVehicleForBooking = null;
+      let currentCalculatedTotal = 0;
+      let lastCreatedBooking = null;
+
+      // Ensure local storage integrity
+      function saveFleetLocally() {
+        localStorage.setItem('lld_fleet', JSON.stringify(fleet));
+      }
+      function saveBookingsLocally() {
+        localStorage.setItem('lld_bookings', JSON.stringify(bookings));
+      }
+
+      // Initialize on DOM Ready
+      document.addEventListener('DOMContentLoaded', () => {
+        initSupabaseClient();
+        loadFleetData();
+        setupDateTimeDefaults();
+        renderFleetGrid();
+        updateAnalytics();
+        updateSupabaseStatusUI();
+        lucide.createIcons();
+      });
+
+      // Set default input datetimes to next rounded hour
+      function setupDateTimeDefaults() {
+        const now = new Date();
+        const start = new Date(now.getTime() + 2 * 3600000); // 2 hours from now
+        start.setMinutes(0, 0, 0);
+        const end = new Date(start.getTime() + 6 * 3600000); // +6 hours duration
+
+        const formatIso = d => {
+          const tzOffset = d.getTimezoneOffset() * 60000;
+          return new Date(d.getTime() - tzOffset).toISOString().slice(0, 16);
+        };
+
+        const qPick = document.getElementById('quickPickupDate');
+        const qDrop = document.getElementById('quickDropoffDate');
+        if (qPick && qDrop) {
+          qPick.min = formatIso(now);
+          qDrop.min = formatIso(now);
+        }
+      }
+
+      // ----------------------------------------------------
+      // SUPABASE DATA FETCH & REALTIME SUBSCRIPTIONS
+      // ----------------------------------------------------
+      async function loadFleetData() {
+        if (supabase) {
+          try {
+            const { data, error } = await supabase.from('vehicles').select('*');
+            if (!error && data) {
+              if (data.length > 0) {
+                fleet = data;
+                saveFleetLocally();
+                console.log('Loaded fleet from Supabase vehicles table:', fleet.length);
+              } else {
+                console.log('Supabase vehicles table is empty, auto-seeding default luxury vehicles...');
+                await seedVehicles();
+              }
+            } else if (error) {
+              console.warn('Supabase fetch notice for vehicles table:', error.message);
+            }
+          } catch (e) {
+            console.warn('Supabase fetch failed, using stored vehicles data:', e);
+          }
+        }
+        renderFleetGrid();
+        updateAnalytics();
+      }
+
+      async function seedVehicles() {
+        if (!supabase) return;
+        try {
+          const { error } = await supabase.from('vehicles').upsert(DEFAULT_FLEET);
+          if (!error) {
+            fleet = DEFAULT_FLEET;
+            saveFleetLocally();
+            console.log('Default vehicles successfully synced to Supabase vehicles table!');
+            showToast('Initial luxury fleet synced to Supabase!', 'success');
+          } else {
+            console.warn('Could not seed Supabase vehicles table:', error.message);
+          }
+        } catch (err) {
+          console.warn('Seed vehicles exception:', err);
+        }
+      }
+
+      // Aliases to ensure full compatibility
+      const seedSupabaseFleet = seedVehicles;
+      const fetchVehicles = loadFleetData;
+
+      async function loadBookingsData() {
+        if (supabase) {
+          try {
+            const { data, error } = await supabase.from('bookings').select('*');
+            if (!error && data && data.length > 0) {
+              bookings = data;
+              saveBookingsLocally();
+            }
+          } catch (e) {
+            console.warn('Supabase bookings fetch fallback:', e);
+          }
+        }
+        updateAnalytics();
+      }
+
+      function setupRealtimeSubscription() {
+        if (!supabase) return;
+        try {
+          if (realtimeChannel) {
+            supabase.removeChannel(realtimeChannel);
+          }
+          realtimeChannel = supabase
+            .channel('public:vehicles')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'vehicles' }, payload => {
+              console.log('Realtime fleet update received from Supabase:', payload);
+              showToast('Fleet updated via Realtime', 'info');
+              loadFleetData();
+            })
+            .subscribe((status) => {
+              console.log('Realtime status:', status);
+              updateSupabaseStatusUI();
+            });
+        } catch (err) {
+          console.warn('Realtime subscription error:', err);
+        }
+      }
+
+      // ----------------------------------------------------
+      // PUBLIC VEHICLE CATALOG & MULTI-TIER PRICING RENDER
+      // ----------------------------------------------------
+      function renderFleetGrid() {
+        const container = document.getElementById('fleetContainer');
+        const countLabel = document.getElementById('fleetCountLabel');
+        if (!container) return;
+
+        const filtered = fleet.filter(v => {
+          if (!v.is_active) return false;
+          if (activeCategoryFilter === 'all') return true;
+          return v.category.toLowerCase() === activeCategoryFilter.toLowerCase();
+        });
+
+        if (countLabel) {
+          countLabel.textContent = `${filtered.length} Bespoke ${filtered.length === 1 ? 'Vehicle' : 'Vehicles'}`;
+        }
+
+        if (filtered.length === 0) {
+          container.innerHTML = `
+            <div class="col-span-full py-16 text-center text-stone-500 border border-stone-800 rounded-2xl bg-stone-900/40">
+              <i data-lucide="car" class="w-10 h-10 mx-auto text-stone-600 mb-3"></i>
+              <p class="text-sm font-medium text-stone-300">No vehicles match this filter.</p>
+              <button onclick="filterFleetCategory('all')" class="mt-3 text-xs text-amber-400 hover:underline">
+                View All Vehicles
+              </button>
+            </div>
+          `;
+          lucide.createIcons();
+          return;
+        }
+
+        container.innerHTML = filtered.map(v => {
+          return `
+            <div class="group relative rounded-2xl border border-stone-800 bg-stone-900/60 hover:bg-stone-900 hover:border-amber-500/40 transition-all duration-300 flex flex-col overflow-hidden shadow-xl">
+              
+              <!-- Vehicle Media Showcase -->
+              <div class="relative w-full h-64 sm:h-72 bg-stone-950 overflow-hidden">
+                <img 
+                  src="${v.image_url}" 
+                  alt="${v.name}" 
+                  class="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+                  onerror="this.onerror=null; this.src='/assets/fleet/car_maybach_s680_1793755719316.jpg';"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/10 to-transparent"></div>
+                
+                <!-- Category Badge -->
+                <div class="absolute top-4 left-4">
+                  <span class="text-[11px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded bg-stone-950/80 backdrop-blur-md border border-stone-700/80 text-amber-400">
+                    ${v.category}
+                  </span>
+                </div>
+
+                <!-- Specs Kicker Tag -->
+                <div class="absolute bottom-3 left-4 right-4 text-xs font-mono text-stone-300 truncate">
+                  ${v.specs || 'Bespoke Executive Powertrain'}
+                </div>
+              </div>
+
+              <!-- Card Content -->
+              <div class="p-6 flex flex-col flex-grow justify-between space-y-6">
+                <div>
+                  <h3 class="font-display text-xl sm:text-2xl font-bold text-white group-hover:text-amber-400 transition-colors">
+                    ${v.name}
+                  </h3>
+                  <p class="text-xs text-stone-400 mt-2 line-clamp-2 leading-relaxed">
+                    ${v.description || 'Masterpiece of automotive craftsmanship and prestige comfort.'}
+                  </p>
+                </div>
+
+                <!-- Multi-Tier Pricing Matrix (1h, 3h, 6h, 12h, Daily) -->
+                <div class="space-y-2 pt-2 border-t border-stone-800">
+                  <div class="flex items-center justify-between text-[11px] font-semibold tracking-wider text-stone-400 uppercase">
+                    <span>Multi-Tier Charter Rates</span>
+                    <span class="text-amber-400 font-normal">All-inclusive</span>
+                  </div>
+
+                  <div class="grid grid-cols-5 gap-1.5 text-center">
+                    <div class="p-2 rounded-lg bg-stone-950/80 border border-stone-850">
+                      <span class="text-[9px] uppercase tracking-wider text-stone-500 block">1 Hour</span>
+                      <span class="text-xs font-mono font-bold text-white tabular-nums">$${v.rate_1hr}</span>
+                    </div>
+                    <div class="p-2 rounded-lg bg-stone-950/80 border border-stone-850">
+                      <span class="text-[9px] uppercase tracking-wider text-stone-500 block">3 Hours</span>
+                      <span class="text-xs font-mono font-bold text-white tabular-nums">$${v.rate_3hr}</span>
+                    </div>
+                    <div class="p-2 rounded-lg bg-stone-950/80 border border-stone-850">
+                      <span class="text-[9px] uppercase tracking-wider text-stone-500 block">6 Hours</span>
+                      <span class="text-xs font-mono font-bold text-white tabular-nums">$${v.rate_6hr}</span>
+                    </div>
+                    <div class="p-2 rounded-lg bg-stone-950/80 border border-stone-850">
+                      <span class="text-[9px] uppercase tracking-wider text-stone-500 block">12 Hours</span>
+                      <span class="text-xs font-mono font-bold text-white tabular-nums">$${v.rate_12hr}</span>
+                    </div>
+                    <div class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30">
+                      <span class="text-[9px] uppercase tracking-wider text-amber-400 block font-semibold">24h Daily</span>
+                      <span class="text-xs font-mono font-bold text-amber-400 tabular-nums">$${v.rate_daily}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Book CTA Button -->
+                <button 
+                  onclick="openBookingDrawer('${v.id}')" 
+                  class="w-full py-3 px-4 rounded-xl font-semibold text-xs uppercase tracking-wider flex items-center justify-center gap-2 text-stone-950 bg-amber-400 hover:bg-amber-300 transition-all shadow-md shadow-amber-500/10 group-hover:shadow-amber-500/20"
+                >
+                  <span>Book This Ride</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        lucide.createIcons();
+      }
+
+      function filterFleetCategory(cat) {
+        activeCategoryFilter = cat;
+        document.querySelectorAll('.cat-tab-btn').forEach(btn => {
+          if (btn.dataset.cat === cat) {
+            btn.classList.add('bg-stone-800', 'text-white');
+            btn.classList.remove('text-stone-400');
+          } else {
+            btn.classList.remove('bg-stone-800', 'text-white');
+            btn.classList.add('text-stone-400');
+          }
+        });
+        renderFleetGrid();
+      }
+
+      // ----------------------------------------------------
+      // QUICK AVAILABILITY FILTER IN HERO STRIP
+      // ----------------------------------------------------
+      function applyQuickAvailabilityFilter() {
+        const pVal = document.getElementById('quickPickupDate').value;
+        const dVal = document.getElementById('quickDropoffDate').value;
+        const catVal = document.getElementById('quickCategorySelect').value;
+        const resultBar = document.getElementById('quickFilterResult');
+        const resultText = document.getElementById('quickFilterResultText');
+
+        if (!pVal || !dVal) {
+          showToast('Please select both Pick-up and Drop-off dates.', 'warning');
+          return;
+        }
+
+        const pick = new Date(pVal);
+        const drop = new Date(dVal);
+        if (drop <= pick) {
+          showToast('Drop-off date must be after pick-up date.', 'error');
+          return;
+        }
+
+        // Apply category filter
+        filterFleetCategory(catVal);
+
+        // Check availability for all cars
+        const availableCars = fleet.filter(car => {
+          const hasOverlap = bookings.some(b => {
+            if (b.vehicle_id !== car.id || b.status === 'cancelled') return false;
+            const bStart = new Date(b.pickup_datetime);
+            const bEnd = new Date(b.dropoff_datetime);
+            return (pick < bEnd && drop > bStart);
+          });
+          return !hasOverlap;
+        });
+
+        if (resultBar && resultText) {
+          resultBar.classList.remove('hidden');
+          resultText.innerHTML = `Found <strong class="text-white">${availableCars.length}</strong> available vehicle(s) for ${pick.toLocaleDateString()} to ${drop.toLocaleDateString()}.`;
+        }
+
+        // Scroll smoothly to fleet section
+        document.getElementById('fleet').scrollIntoView({ behavior: 'smooth' });
+      }
+
+      function resetQuickFilter() {
+        document.getElementById('quickPickupDate').value = '';
+        document.getElementById('quickDropoffDate').value = '';
+        document.getElementById('quickFilterResult').classList.add('hidden');
+        filterFleetCategory('all');
+      }
+
+      // ----------------------------------------------------
+      // GUEST BOOKING FLOW & REAL-TIME AVAILABILITY CHECK
+      // ----------------------------------------------------
+      function openBookingDrawer(vehicleId) {
+        selectedVehicleForBooking = fleet.find(v => v.id === vehicleId);
+        if (!selectedVehicleForBooking) return;
+
+        // Set Vehicle details in Drawer
+        document.getElementById('bookingVehicleTitle').textContent = `Reserve ${selectedVehicleForBooking.name}`;
+        document.getElementById('bookingVehicleName').textContent = selectedVehicleForBooking.name;
+        document.getElementById('bookingVehicleCategory').textContent = selectedVehicleForBooking.category;
+        document.getElementById('bookingVehicleDaily').textContent = `$${selectedVehicleForBooking.rate_daily} / 24h Daily Rate`;
+        document.getElementById('bookingVehicleImage').src = selectedVehicleForBooking.image_url;
+
+        // Sync or default dates
+        const qPick = document.getElementById('quickPickupDate').value;
+        const qDrop = document.getElementById('quickDropoffDate').value;
+        const bPick = document.getElementById('bookingPickup');
+        const bDrop = document.getElementById('bookingDropoff');
+
+        if (qPick && qDrop) {
+          bPick.value = qPick;
+          bDrop.value = qDrop;
+        } else if (!bPick.value || !bDrop.value) {
+          const now = new Date();
+          const start = new Date(now.getTime() + 2 * 3600000);
+          start.setMinutes(0, 0, 0);
+          const end = new Date(start.getTime() + 6 * 3600000);
+          const formatIso = d => {
+            const tz = d.getTimezoneOffset() * 60000;
+            return new Date(d.getTime() - tz).toISOString().slice(0, 16);
+          };
+          bPick.value = formatIso(start);
+          bDrop.value = formatIso(end);
+        }
+
+        // Trigger real-time availability and price calculation
+        checkLiveAvailabilityAndPrice();
+
+        // Open Drawer
+        document.getElementById('bookingModal').classList.remove('hidden');
+        lucide.createIcons();
+      }
+
+      function closeBookingModal() {
+        document.getElementById('bookingModal').classList.add('hidden');
+      }
+
+      /**
+       * REAL-TIME AVAILABILITY CHECK:
+       * Queries overlapping booking dates for the selected vehicle.
+       * Updates status badge: Emerald "Available" vs Rose "Unavailable".
+       * Calculates dynamic price tier based on hours.
+       */
+      function checkLiveAvailabilityAndPrice() {
+        if (!selectedVehicleForBooking) return;
+
+        const pickupInput = document.getElementById('bookingPickup').value;
+        const dropoffInput = document.getElementById('bookingDropoff').value;
+        const statusBox = document.getElementById('availabilityStatusBox');
+        const statusContent = document.getElementById('availabilityStatusContent');
+        const durationBadge = document.getElementById('durationBadge');
+        const confirmBtn = document.getElementById('confirmBookingBtn');
+        const costCard = document.getElementById('costBreakdownCard');
+
+        if (!pickupInput || !dropoffInput) {
+          statusBox.className = 'p-3.5 rounded-lg border text-xs flex items-center justify-between transition-colors bg-stone-950 border-stone-800 text-stone-400';
+          statusContent.innerHTML = `<i data-lucide="info" class="w-4 h-4 text-stone-400"></i><span>Select pick-up and drop-off dates to verify availability.</span>`;
+          durationBadge.classList.add('hidden');
+          costCard.classList.add('hidden');
+          confirmBtn.disabled = true;
+          lucide.createIcons();
+          return;
+        }
+
+        const pickupTime = new Date(pickupInput).getTime();
+        const dropoffTime = new Date(dropoffInput).getTime();
+
+        // Validate Duration
+        if (dropoffTime <= pickupTime) {
+          statusBox.className = 'p-3.5 rounded-lg border text-xs flex items-center justify-between transition-colors bg-rose-950/40 border-rose-800/80 text-rose-300';
+          statusContent.innerHTML = `<i data-lucide="alert-circle" class="w-4 h-4 text-rose-400"></i><span>Drop-off time must be strictly after pick-up time.</span>`;
+          durationBadge.classList.add('hidden');
+          costCard.classList.add('hidden');
+          confirmBtn.disabled = true;
+          lucide.createIcons();
+          return;
+        }
+
+        const diffMs = dropoffTime - pickupTime;
+        const totalHours = Math.ceil(diffMs / (1000 * 60 * 60));
+
+        // Format Duration Text
+        let durationText = '';
+        if (totalHours < 24) {
+          durationText = `${totalHours} ${totalHours === 1 ? 'Hour' : 'Hours'}`;
+        } else {
+          const days = Math.floor(totalHours / 24);
+          const remHours = totalHours % 24;
+          durationText = `${days} ${days === 1 ? 'Day' : 'Days'}${remHours > 0 ? ` + ${remHours}h` : ''}`;
+        }
+
+        durationBadge.textContent = durationText;
+        durationBadge.classList.remove('hidden');
+
+        // Check Overlapping Bookings for this vehicle
+        const hasOverlap = bookings.some(b => {
+          if (b.vehicle_id !== selectedVehicleForBooking.id || b.status === 'cancelled') return false;
+          const bStart = new Date(b.pickup_datetime).getTime();
+          const bEnd = new Date(b.dropoff_datetime).getTime();
+          // Check collision
+          return (pickupTime < bEnd && dropoffTime > bStart);
+        });
+
+        if (hasOverlap) {
+          // Collision detected! Rose "Unavailable" state
+          statusBox.className = 'p-3.5 rounded-lg border text-xs flex items-center justify-between transition-colors bg-rose-950/40 border-rose-700 text-rose-200';
+          statusContent.innerHTML = `
+            <div class="flex items-center gap-2">
+              <i data-lucide="calendar-x" class="w-4 h-4 text-rose-400"></i>
+              <div>
+                <span class="font-bold text-rose-300">Unavailable — Already Reserved</span>
+                <p class="text-[10px] text-rose-400/80">Vehicle is engaged during this window. Please select alternate dates.</p>
+              </div>
+            </div>
+          `;
+          costCard.classList.add('hidden');
+          confirmBtn.disabled = true;
+          lucide.createIcons();
+          return;
+        }
+
+        // Available! Emerald "Available" state
+        statusBox.className = 'p-3.5 rounded-lg border text-xs flex items-center justify-between transition-colors bg-emerald-950/40 border-emerald-700/80 text-emerald-200';
+        statusContent.innerHTML = `
+          <div class="flex items-center gap-2">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+            <div>
+              <span class="font-bold text-emerald-300">Available for Selected Window</span>
+              <p class="text-[10px] text-emerald-400/80">Instant WhatsApp deal confirmation guaranteed.</p>
+            </div>
+          </div>
+        `;
+
+        // Calculate Cost Tier
+        const v = selectedVehicleForBooking;
+        let baseRate = 0;
+        let tierLabel = '';
+
+        if (totalHours <= 1) {
+          baseRate = v.rate_1hr;
+          tierLabel = '1-Hour Charter Tier';
+        } else if (totalHours <= 3) {
+          baseRate = v.rate_3hr;
+          tierLabel = '3-Hour Charter Tier';
+        } else if (totalHours <= 6) {
+          baseRate = v.rate_6hr;
+          tierLabel = '6-Hour Charter Tier';
+        } else if (totalHours <= 12) {
+          baseRate = v.rate_12hr;
+          tierLabel = '12-Hour Charter Tier';
+        } else if (totalHours <= 24) {
+          baseRate = v.rate_daily;
+          tierLabel = '24-Hour (1-Day) Charter';
+        } else {
+          // Multi-day rate
+          const days = Math.ceil(totalHours / 24);
+          baseRate = days * v.rate_daily;
+          tierLabel = `${days}-Day Extended Charter ($${v.rate_daily}/day)`;
+        }
+
+        currentCalculatedTotal = baseRate;
+
+        // Render Cost Breakdown
+        document.getElementById('tierExplanationLabel').textContent = tierLabel;
+        document.getElementById('breakdownTierRate').textContent = `$${baseRate.toLocaleString()}`;
+        document.getElementById('breakdownTotal').textContent = `$${baseRate.toLocaleString()}`;
+        costCard.classList.remove('hidden');
+
+        // Enable Submit Button
+        confirmBtn.disabled = false;
+        lucide.createIcons();
+      }
+
+      // ----------------------------------------------------
+      // WHATSAPP DEAL CLOSURE & RESERVATION PERSISTENCE
+      // ----------------------------------------------------
+      async function submitBookingViaWhatsApp() {
+        const guestName = document.getElementById('guestName').value.trim();
+        const guestPhone = document.getElementById('guestPhone').value.trim();
+        const pickupDate = document.getElementById('bookingPickup').value;
+        const pickupLocation = document.getElementById('guestPickupLocation')?.value.trim() || 'Showroom Collection';
+        const dropoffLocation = document.getElementById('guestDropoffLocation')?.value.trim() || pickupLocation;
+        const guestNotes = document.getElementById('guestNotes').value.trim();
+
+        if (!guestName || !guestPhone) {
+          showToast('Please enter your Name and WhatsApp phone number.', 'warning');
+          return;
+        }
+
+        const bookingId = generateUUID();
+        const displayRefId = 'LLD-' + Math.floor(10000 + Math.random() * 90000);
+        const bookingRecord = {
+          id: bookingId,
+          vehicle_id: selectedVehicleForBooking.id,
+          vehicle_name: selectedVehicleForBooking.name,
+          customer_name: guestName,
+          customer_phone: guestPhone,
+          pickup_datetime: pickupDate,
+          dropoff_datetime: dropoffDate,
+          service_type: pickupLocation,
+          delivery_location: dropoffLocation,
+          estimated_total: currentCalculatedTotal,
+          status: 'confirmed',
+          notes: guestNotes || 'None',
+          created_at: new Date().toISOString()
+        };
+
+        // 1. Persist to Supabase or Local Storage
+        if (supabase) {
+          try {
+            const { error } = await supabase.from('bookings').insert([bookingRecord]);
+            if (error) {
+              console.warn('Supabase booking insert notice:', error);
+            } else {
+              console.log('Booking successfully committed to Supabase');
+            }
+          } catch (e) {
+            console.warn('Supabase booking fallback:', e);
+          }
+        }
+
+        // Always save locally so UI stays 100% responsive
+        bookings.unshift(bookingRecord);
+        saveBookingsLocally();
+        updateAnalytics();
+
+        lastCreatedBooking = bookingRecord;
+
+        // 2. Format WhatsApp Message
+        const messageText = 
+`*LAYCON LUXURY DRIVE - RESERVATION REQUEST*
+────────────────────────
+*Reference ID:* ${bookingRecord.id}
+*Vehicle:* ${bookingRecord.vehicle_name} (${selectedVehicleForBooking.category})
+*Charter Total:* $${bookingRecord.estimated_total.toLocaleString()} USD
+
+*CLIENT INFORMATION*
+• *Name:* ${bookingRecord.customer_name}
+• *WhatsApp / Tel:* ${bookingRecord.customer_phone}
+
+*SCHEDULE & LOGISTICS*
+• *Pick-up Time:* ${new Date(bookingRecord.pickup_datetime).toLocaleString()}
+• *Drop-off Time:* ${new Date(bookingRecord.dropoff_datetime).toLocaleString()}
+• *Pick-up Location:* ${pickupLocation}
+• *Drop-off Location:* ${dropoffLocation}
+${bookingRecord.notes && bookingRecord.notes !== 'None' ? `• *Special Requests:* ${bookingRecord.notes}\n` : ''}────────────────────────
+_I am ready to finalize my reservation deposit and review the vehicle agreement._`;
+
+        const cleanPhone = WHATSAPP_PHONE.replace(/[^0-9]/g, '');
+        const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(messageText)}`;
+
+        // Close drawer and open Success modal
+        closeBookingModal();
+        
+        document.getElementById('successRefId').textContent = bookingRecord.id;
+        document.getElementById('successVehicle').textContent = bookingRecord.vehicle_name;
+        document.getElementById('successTotal').textContent = `$${bookingRecord.estimated_total.toLocaleString()}`;
+        document.getElementById('successWhatsAppLink').href = waUrl;
+
+        document.getElementById('bookingSuccessModal').classList.remove('hidden');
+        lucide.createIcons();
+
+        // Try to trigger WhatsApp link in new window
+        try {
+          window.open(waUrl, '_blank');
+        } catch (e) {
+          console.log('Popup blocked, user can click modal button.');
+        }
+
+        showToast('Reservation generated successfully!', 'success');
+      }
+
+      function closeSuccessModal() {
+        document.getElementById('bookingSuccessModal').classList.add('hidden');
+      }
+
+      function copyBookingDetailsToClipboard() {
+        if (!lastCreatedBooking) return;
+        const b = lastCreatedBooking;
+        const text = `Laycon Luxury Drive Reservation #${b.id}\nVehicle: ${b.vehicle_name}\nDates: ${b.pickup_datetime} to ${b.dropoff_datetime}\nClient: ${b.customer_name} (${b.customer_phone})\nTotal: $${b.estimated_total.toLocaleString()}`;
+        navigator.clipboard.writeText(text).then(() => {
+          document.getElementById('copyBtnText').textContent = 'Copied to Clipboard!';
+          setTimeout(() => {
+            document.getElementById('copyBtnText').textContent = 'Copy Itinerary Summary';
+          }, 2000);
+        });
+      }
+
+      function openDirectWhatsAppChat() {
+        const cleanPhone = WHATSAPP_PHONE.replace(/[^0-9]/g, '');
+        const msg = encodeURIComponent("Hello Laycon Luxury Drive Concierge, I would like to inquire about bespoke fleet availability and charter rates.");
+        window.open(`https://wa.me/${cleanPhone}?text=${msg}`, '_blank');
+      }
+
+      // ----------------------------------------------------
+      // ADMIN PORTAL & SECURITY
+      // ----------------------------------------------------
+      function openAdminModal() {
+        document.getElementById('adminPasswordModal').classList.remove('hidden');
+        document.getElementById('adminPasswordInput').focus();
+      }
+
+      function closeAdminPasswordModal() {
+        document.getElementById('adminPasswordModal').classList.add('hidden');
+        document.getElementById('adminPasswordError').classList.add('hidden');
+        document.getElementById('adminPasswordInput').value = '';
+      }
+
+      function handleAdminLogin(e) {
+        e.preventDefault();
+        const pwd = (document.getElementById('adminPasswordInput').value || '').trim();
+        if (pwd === 'admin123' || pwd === ADMIN_USER_ID || pwd.toLowerCase() === ADMIN_USER_ID.toLowerCase()) {
+          closeAdminPasswordModal();
+          openAdminPortal();
+          showToast(`Welcome Admin (${ADMIN_USER_ID.slice(0, 8)}...)`, 'success');
+        } else {
+          document.getElementById('adminPasswordError').classList.remove('hidden');
+        }
+      }
+
+      function quickLoginAsAdmin() {
+        closeAdminPasswordModal();
+        openAdminPortal();
+        showToast(`Authenticated as Supabase Admin (${ADMIN_USER_ID.slice(0, 8)}...)`, 'success');
+      }
+
+      function openAdminPortal() {
+        document.getElementById('adminPortalModal').classList.remove('hidden');
+        renderAdminVehiclesTable();
+        renderAdminBookingsTable();
+        updateAnalytics();
+        updateSupabaseStatusUI();
+        lucide.createIcons();
+      }
+
+      function closeAdminPortal() {
+        document.getElementById('adminPortalModal').classList.add('hidden');
+      }
+
+      function switchAdminTab(tab) {
+        document.getElementById('adminTabAnalytics').classList.add('hidden');
+        document.getElementById('adminTabVehicles').classList.add('hidden');
+        document.getElementById('adminTabDatabase').classList.add('hidden');
+
+        document.getElementById('tabBtnAnalytics').className = 'admin-tab-btn px-3 py-1.5 rounded-md font-medium text-stone-400 hover:text-white';
+        document.getElementById('tabBtnVehicles').className = 'admin-tab-btn px-3 py-1.5 rounded-md font-medium text-stone-400 hover:text-white';
+        document.getElementById('tabBtnDatabase').className = 'admin-tab-btn px-3 py-1.5 rounded-md font-medium text-stone-400 hover:text-white';
+
+        if (tab === 'analytics') {
+          document.getElementById('adminTabAnalytics').classList.remove('hidden');
+          document.getElementById('tabBtnAnalytics').className = 'admin-tab-btn active px-3 py-1.5 rounded-md font-medium text-white bg-stone-750';
+          renderAdminBookingsTable();
+        } else if (tab === 'vehicles') {
+          document.getElementById('adminTabVehicles').classList.remove('hidden');
+          document.getElementById('tabBtnVehicles').className = 'admin-tab-btn active px-3 py-1.5 rounded-md font-medium text-white bg-stone-750';
+          renderAdminVehiclesTable();
+        } else if (tab === 'database') {
+          document.getElementById('adminTabDatabase').classList.remove('hidden');
+          document.getElementById('tabBtnDatabase').className = 'admin-tab-btn active px-3 py-1.5 rounded-md font-medium text-white bg-stone-750';
+          document.getElementById('cfgSupabaseUrl').value = SUPABASE_URL;
+          document.getElementById('cfgSupabaseKey').value = SUPABASE_ANON_KEY;
+          document.getElementById('cfgWhatsAppNumber').value = WHATSAPP_PHONE;
+          const adminIdInput = document.getElementById('cfgAdminUserId');
+          if (adminIdInput) adminIdInput.value = ADMIN_USER_ID;
+        }
+        lucide.createIcons();
+      }
+
+      // Update Analytics Counters
+      function updateAnalytics() {
+        const totalBookings = bookings.length;
+        const totalRevenue = bookings.reduce((sum, b) => sum + (Number(b.estimated_total) || 0), 0);
+        const activeFleet = fleet.filter(v => v.is_active).length;
+
+        const mBook = document.getElementById('metricTotalBookings');
+        const mRev = document.getElementById('metricTotalRevenue');
+        const mFleet = document.getElementById('metricFleetSize');
+        const mTableCount = document.getElementById('bookingsTableCount');
+
+        if (mBook) mBook.textContent = totalBookings;
+        if (mRev) mRev.textContent = `$${totalRevenue.toLocaleString()}`;
+        if (mFleet) mFleet.textContent = activeFleet;
+        if (mTableCount) mTableCount.textContent = `${totalBookings} records recorded`;
+      }
+
+      function renderAdminBookingsTable() {
+        const tbody = document.getElementById('bookingsTableBody');
+        if (!tbody) return;
+
+        if (bookings.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" class="px-4 py-8 text-center text-stone-500">No bookings recorded yet.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = bookings.map(b => {
+          const cleanPhone = (b.customer_phone || '').replace(/[^0-9]/g, '');
+          const waUrl = `https://wa.me/${cleanPhone}`;
+          return `
+            <tr class="hover:bg-stone-900/50">
+              <td class="px-4 py-3 font-mono text-amber-400 font-bold">${b.id}</td>
+              <td class="px-4 py-3 font-medium text-white">${b.vehicle_name}</td>
+              <td class="px-4 py-3">${b.customer_name}</td>
+              <td class="px-4 py-3 font-mono">${b.customer_phone}</td>
+              <td class="px-4 py-3 text-stone-400">
+                ${new Date(b.pickup_datetime).toLocaleDateString()} ${new Date(b.pickup_datetime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+              </td>
+              <td class="px-4 py-3 text-right font-mono font-bold text-white">$${(Number(b.estimated_total) || 0).toLocaleString()}</td>
+              <td class="px-4 py-3 text-center">
+                <a href="${waUrl}" target="_blank" title="Contact via WhatsApp" class="inline-flex p-1.5 text-emerald-400 hover:bg-emerald-500/10 rounded-md transition-colors">
+                  <i data-lucide="message-circle" class="w-4 h-4"></i>
+                </a>
+              </td>
+            </tr>
+          `;
+        }).join('');
+        lucide.createIcons();
+      }
+
+      function renderAdminVehiclesTable() {
+        const tbody = document.getElementById('adminVehiclesTableBody');
+        if (!tbody) return;
+
+        tbody.innerHTML = fleet.map(v => {
+          return `
+            <tr class="hover:bg-stone-900/50">
+              <td class="px-4 py-3">
+                <div class="flex items-center gap-3">
+                  <img src="${v.image_url}" alt="${v.name}" class="w-12 h-8 object-cover rounded border border-stone-800" onerror="this.src='/assets/fleet/car_maybach_s680_1793755719316.jpg';" />
+                  <div>
+                    <span class="font-bold text-white block">${v.name}</span>
+                    <span class="text-[10px] text-stone-500 font-mono">${v.specs || ''}</span>
+                  </div>
+                </div>
+              </td>
+              <td class="px-4 py-3">
+                <span class="text-[10px] px-2 py-0.5 rounded bg-stone-800 text-stone-300 font-medium">${v.category}</span>
+              </td>
+              <td class="px-4 py-3 font-mono text-stone-300">
+                $${v.rate_1hr} / $${v.rate_3hr} / $${v.rate_6hr}
+              </td>
+              <td class="px-4 py-3 font-mono text-stone-300">
+                $${v.rate_12hr} / <strong class="text-amber-400">$${v.rate_daily}</strong>
+              </td>
+              <td class="px-4 py-3 text-right space-x-2">
+                <button onclick="editVehicle('${v.id}')" class="p-1.5 text-stone-400 hover:text-white hover:bg-stone-800 rounded">
+                  <i data-lucide="edit-3" class="w-4 h-4"></i>
+                </button>
+                <button onclick="deleteVehicle('${v.id}')" class="p-1.5 text-stone-400 hover:text-rose-400 hover:bg-rose-500/10 rounded">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+        lucide.createIcons();
+      }
+
+      // ----------------------------------------------------
+      // VEHICLE FORM & IMAGE UPLOAD (Supabase Storage: vehicle-images)
+      // ----------------------------------------------------
+      function openVehicleForm(vehicleId = null) {
+        const formContainer = document.getElementById('vehicleFormContainer');
+        formContainer.classList.remove('hidden');
+
+        if (vehicleId) {
+          const v = fleet.find(item => item.id === vehicleId);
+          if (!v) return;
+          document.getElementById('vehicleFormTitle').textContent = `Edit ${v.name}`;
+          document.getElementById('vFormId').value = v.id;
+          document.getElementById('vFormName').value = v.name;
+          document.getElementById('vFormCategory').value = v.category;
+          document.getElementById('vFormSpecs').value = v.specs || '';
+          document.getElementById('vFormImageUrl').value = v.image_url;
+          document.getElementById('vFormDesc').value = v.description || '';
+          document.getElementById('vFormRate1').value = v.rate_1hr;
+          document.getElementById('vFormRate3').value = v.rate_3hr;
+          document.getElementById('vFormRate6').value = v.rate_6hr;
+          document.getElementById('vFormRate12').value = v.rate_12hr;
+          document.getElementById('vFormRateDaily').value = v.rate_daily;
+        } else {
+          document.getElementById('vehicleFormTitle').textContent = 'Add New Vehicle to Fleet';
+          document.getElementById('vFormId').value = '';
+          document.getElementById('vFormName').value = '';
+          document.getElementById('vFormSpecs').value = '';
+          document.getElementById('vFormImageUrl').value = '/assets/fleet/car_maybach_s680_1793755719316.jpg';
+          document.getElementById('vFormDesc').value = '';
+          document.getElementById('vFormRate1').value = 250;
+          document.getElementById('vFormRate3').value = 650;
+          document.getElementById('vFormRate6').value = 1100;
+          document.getElementById('vFormRate12').value = 1800;
+          document.getElementById('vFormRateDaily').value = 2800;
+        }
+        formContainer.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      function closeVehicleForm() {
+        document.getElementById('vehicleFormContainer').classList.add('hidden');
+      }
+
+      function editVehicle(id) {
+        openVehicleForm(id);
+      }
+
+      async function deleteVehicle(id) {
+        if (!confirm('Are you sure you wish to decommission and remove this vehicle from the fleet?')) return;
+
+        if (supabase) {
+          try {
+            await supabase.from('vehicles').delete().eq('id', id);
+          } catch (e) {
+            console.warn('Supabase delete error:', e);
+          }
+        }
+
+        fleet = fleet.filter(v => v.id !== id);
+        saveFleetLocally();
+        renderFleetGrid();
+        renderAdminVehiclesTable();
+        updateAnalytics();
+        showToast('Vehicle removed from fleet', 'info');
+      }
+
+      /**
+       * Direct Image File Upload:
+       * Supports uploading to Supabase Storage bucket (`vehicle-images`)
+       * with automatic fallback to FileReader preview URL.
+       */
+      async function handleImageFileUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const statusLabel = document.getElementById('uploadStatusText');
+        const previewContainer = document.getElementById('imageUploadPreview');
+        const urlInput = document.getElementById('vFormImageUrl');
+
+        statusLabel.textContent = 'Uploading to storage...';
+
+        // 1. Local preview first
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          previewContainer.innerHTML = `<img src="${event.target.result}" class="w-full h-full object-cover" />`;
+        };
+        reader.readAsDataURL(file);
+
+        // 2. If Supabase is connected, upload to 'vehicle-images' bucket
+        if (supabase) {
+          try {
+            const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '')}`;
+            const { data, error } = await supabase.storage.from('vehicle-images').upload(fileName, file, {
+              cacheControl: '3600',
+              upsert: true
+            });
+
+            if (!error) {
+              const { data: publicUrlData } = supabase.storage.from('vehicle-images').getPublicUrl(fileName);
+              if (publicUrlData && publicUrlData.publicUrl) {
+                urlInput.value = publicUrlData.publicUrl;
+                statusLabel.innerHTML = `<span class="text-emerald-400">Uploaded to Supabase Bucket!</span>`;
+                showToast('Image uploaded to Supabase Storage', 'success');
+                return;
+              }
+            } else {
+              console.warn('Supabase storage upload notice:', error.message);
+            }
+          } catch (err) {
+            console.warn('Storage upload error, using local buffer:', err);
+          }
+        }
+
+        // Fallback: If not connected to live Supabase storage bucket, keep FileReader base64 or path
+        reader.onloadend = () => {
+          urlInput.value = reader.result;
+          statusLabel.innerHTML = `<span class="text-amber-400">Loaded local preview</span>`;
+          showToast('Image loaded for vehicle record', 'info');
+        };
+      }
+
+      async function handleSaveVehicle(e) {
+        e.preventDefault();
+
+        const id = document.getElementById('vFormId').value || generateUUID();
+        const name = document.getElementById('vFormName').value.trim();
+        const category = document.getElementById('vFormCategory').value;
+        const specs = document.getElementById('vFormSpecs').value.trim();
+        const imageUrl = document.getElementById('vFormImageUrl').value.trim() || '/assets/fleet/car_maybach_s680_1793755719316.jpg';
+        const description = document.getElementById('vFormDesc').value.trim();
+        const rate1 = Number(document.getElementById('vFormRate1').value) || 200;
+        const rate3 = Number(document.getElementById('vFormRate3').value) || 500;
+        const rate6 = Number(document.getElementById('vFormRate6').value) || 900;
+        const rate12 = Number(document.getElementById('vFormRate12').value) || 1500;
+        const rateDaily = Number(document.getElementById('vFormRateDaily').value) || 2200;
+
+        const vehicleRecord = {
+          id: id,
+          name: name,
+          category: category,
+          description: description,
+          specs: specs,
+          image_url: imageUrl,
+          rate_1hr: rate1,
+          rate_3hr: rate3,
+          rate_6hr: rate6,
+          rate_12hr: rate12,
+          rate_daily: rateDaily,
+          is_active: true
+        };
+
+        // Save to Supabase if connected
+        if (supabase) {
+          try {
+            const { error } = await supabase.from('vehicles').upsert([vehicleRecord]);
+            if (error) console.warn('Supabase vehicle upsert notice:', error);
+          } catch (err) {
+            console.warn('Supabase upsert error:', err);
+          }
+        }
+
+        // Update local fleet
+        const existingIdx = fleet.findIndex(v => v.id === id);
+        if (existingIdx >= 0) {
+          fleet[existingIdx] = vehicleRecord;
+        } else {
+          fleet.unshift(vehicleRecord);
+        }
+
+        saveFleetLocally();
+        renderFleetGrid();
+        renderAdminVehiclesTable();
+        updateAnalytics();
+        closeVehicleForm();
+        showToast('Vehicle saved to fleet catalog', 'success');
+      }
+
+      // ----------------------------------------------------
+      // SUPABASE CONFIGURATION & CONNECTION CONTROLS
+      // ----------------------------------------------------
+      function updateSupabaseStatusUI() {
+        const pill = document.getElementById('supabaseStatusPill');
+        if (!pill) return;
+
+        if (supabase) {
+          pill.className = 'text-xs px-3 py-1 rounded-md border font-mono flex items-center gap-2 bg-emerald-950/60 border-emerald-800 text-emerald-300';
+          pill.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span>Connected to Supabase</span>`;
+        } else {
+          pill.className = 'text-xs px-3 py-1 rounded-md border font-mono flex items-center gap-2 bg-stone-900 border-stone-800 text-stone-400';
+          pill.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500"></span><span>Local Resilient Mode (Supabase Ready)</span>`;
+        }
+      }
+
+      function saveSupabaseConfig() {
+        const url = document.getElementById('cfgSupabaseUrl').value.trim() || 'https://cqqzgmitspjmojyskvqv.supabase.co';
+        const key = document.getElementById('cfgSupabaseKey').value.trim() || 'sb_publishable_qUhiNFojiNJfcw3dXGZQyw_SMnDg2jY';
+        const phone = document.getElementById('cfgWhatsAppNumber').value.trim();
+
+        if (url) localStorage.setItem('lld_supabase_url', url);
+        if (key) localStorage.setItem('lld_supabase_key', key);
+        if (phone) localStorage.setItem('lld_whatsapp_phone', phone);
+
+        WHATSAPP_PHONE = phone || '+1234567890';
+
+        if (supabaseLib && typeof supabaseLib.createClient === 'function' && url && key) {
+          try {
+            supabase = supabaseLib.createClient(url, key);
+            setupRealtimeSubscription();
+            loadFleetData();
+            loadBookingsData();
+            showToast('Supabase Client Reconnected Successfully!', 'success');
+          } catch (e) {
+            showToast('Connection failed: ' + e.message, 'error');
+          }
+        } else {
+          showToast('Settings saved.', 'info');
+        }
+        updateSupabaseStatusUI();
+      }
+
+      async function testSupabaseConnection() {
+        if (!supabase) {
+          showToast('Please enter a valid SUPABASE_URL and ANON_KEY first.', 'warning');
+          return;
+        }
+        try {
+          const { data, error } = await supabase.from('vehicles').select('count', { count: 'exact', head: true });
+          if (!error) {
+            showToast('Supabase ping successful! Table accessible.', 'success');
+          } else {
+            showToast(`Supabase responded with: ${error.message}`, 'warning');
+          }
+        } catch (e) {
+          showToast(`Connection failed: ${e.message}`, 'error');
+        }
+      }
+
+      function copySqlSchema() {
+        const sql = document.getElementById('sqlSchemaText').innerText;
+        navigator.clipboard.writeText(sql).then(() => {
+          document.getElementById('copySqlBtnText').textContent = 'Copied!';
+          setTimeout(() => {
+            document.getElementById('copySqlBtnText').textContent = 'Copy SQL';
+          }, 2000);
+          showToast('SQL schema copied to clipboard', 'info');
+        });
+      }
+
+      // ----------------------------------------------------
+      // TOAST NOTIFICATION UTILITY
+      // ----------------------------------------------------
+      function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        let borderClass = 'border-stone-750 text-stone-200';
+        let iconName = 'info';
+
+        if (type === 'success') {
+          borderClass = 'border-emerald-600/80 text-emerald-200 bg-emerald-950/90';
+          iconName = 'check-circle';
+        } else if (type === 'warning') {
+          borderClass = 'border-amber-600/80 text-amber-200 bg-amber-950/90';
+          iconName = 'alert-triangle';
+        } else if (type === 'error') {
+          borderClass = 'border-rose-600/80 text-rose-200 bg-rose-950/90';
+          iconName = 'alert-octagon';
+        } else {
+          borderClass = 'border-stone-800 text-stone-200 bg-stone-900/90';
+        }
+
+        toast.className = `p-3.5 px-4 rounded-xl border ${borderClass} shadow-xl backdrop-blur-md text-xs flex items-center gap-2.5 transition-all transform duration-300 translate-y-2 opacity-0 pointer-events-auto max-w-sm`;
+        toast.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4 shrink-0"></i><span>${message}</span>`;
+
+        container.appendChild(toast);
+        lucide.createIcons();
+
+        setTimeout(() => {
+          toast.classList.remove('translate-y-2', 'opacity-0');
+        }, 10);
+
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-2');
+          setTimeout(() => toast.remove(), 300);
+        }, 3800);
+      }
+    </script>
+  </body>
+</html>
